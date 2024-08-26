@@ -1,0 +1,139 @@
+
+
+
+
+.hidden {
+  display: none;
+}
+/* Desktop*/
+.navbar {
+  /* height: 3%; */
+  /* margin: 10px;
+  padding: 5px; */
+  /* border-radius: 15px; */
+  font-weight: 400;
+  font-family: "Gothic A1", sans-serif;
+  font-size: 18px;
+
+}
+.navbar-brand {
+  padding-left: 80px;
+}
+.navbar-toggler {
+  border: none;
+  font-size: 1.25res;
+  color: var(--primaryColor);
+}
+
+.navbar-toggler:focus,
+.btn-close:focus {
+  box-shadow: none;
+  outline: none;
+}
+.navbar-nav > li {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media screen and (min-width: 768px) {
+  .hidden {
+    display: block;
+  }
+}
+.ord-button {
+  background-color: rgb(195, 21, 21);
+  color: aliceblue;
+  font-size: 14px;
+  padding: 8px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: 0.3s;
+  font-family: "Gothic A1", sans-serif;
+}
+.ord-button:hover {
+  background-color: rgb(255, 5, 5);
+}
+/* .navbar-toggler-icon {
+  background-color: #ff0000;
+} */
+
+/* Red background on hover */
+.nav-link:hover,
+.dropdown-item:hover {
+  background-color: var(--secondaryColor);
+  color: white !important;
+}
+/* Red background for active and selected items */
+.nav-link.active,
+.dropdown-item.active,
+.navbar-nav .nav-item.show .nav-link {
+  background-color: var(--secondayColor);
+  color: white !important;
+}
+
+
+/* Maintain active state for all nav items */
+.navbar-nav .nav-item:hover .nav-link,
+.navbar-nav .dropdown-item:hover,
+.navbar-nav .nav-item.show .nav-link {
+  /* background-color: var(--BaseColor); */
+
+  color: var(--secondayColor);
+}
+/* Large dropdown styling */
+.dropdown-menu {
+  width: 280px; /* Adjust the width as needed */
+  margin-top: 0; /* Align with the top of the nav item */
+}
+.navbar-nav .nav-item .nav-link{
+  padding: 10px 10px
+}
+.dropdown-item {
+  padding: 10px 10px;
+}
+.nav-link {
+  color: var(--secondayColor);
+  font-weight: 700;
+  position: relative;
+}
+.header {
+  height: 45px;
+  padding-left: 60px;
+}
+@media screen and (max-width: 768px) {
+  .navbar-brand {
+    padding-left: 20px;
+  }
+  .header {
+    padding-left: 10px;
+  }
+  .type {
+   background-color:rgb(211, 211, 211);
+  }
+}
+/* Position nested dropdown */
+/* Submenu dropdown positioning */
+
+
+.dropdown-item:hover {
+  color: var(--secondayColor);
+}
+.dropdown .dropdown-menu {
+  display: none;
+}
+.dropdown:hover > .dropdown-menu,
+.dropend:hover > .dropdown-menu {
+  display: block;
+  /* margin-top: 0.125em; */
+}
+@media screen and (min-width: 992px) {
+  .dropend:hover > .dropdown-menu {
+    position: absolute;
+    top: 0;
+    left: 100%;
+  }
+  .dropstart .dropdown-toggle {
+    margin-left: 0.5em;
+    background-color: aqua;
+  }
+}
+
