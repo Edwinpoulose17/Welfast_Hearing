@@ -1,0 +1,117 @@
+<div class="admin-login-container">
+  <div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center">
+    <div class="row w-100">
+      <div class="col-md-6 col-lg-5 mx-auto">
+        <div class="card shadow-lg border-0">
+          <div class="card-header bg-primary text-white text-center py-4">
+            <img src="../../../assets/Welfast Hearing Branding Kit-08.png"
+                 style="width: 120px; height: 70px; object-fit: contain;"
+                 alt="Welfast Logo" class="mb-3">
+            <h4 class="mb-0">Admin Login</h4>
+            <p class="mb-0 opacity-75">Access your admin dashboard</p>
+          </div>
+
+          <div class="card-body p-4">
+            <!-- Demo Credentials Info -->
+            <div class="alert alert-info" role="alert">
+
+            </div>
+
+            <!-- Success Alert -->
+            <div class="alert alert-success" role="alert" *ngIf="success">
+              <i class="fas fa-check-circle me-2"></i>{{success}}
+            </div>
+
+            <!-- Error Alert -->
+            <div class="alert alert-danger" role="alert" *ngIf="error">
+              <i class="fas fa-exclamation-triangle me-2"></i>{{error}}
+            </div>
+
+            <!-- Login Form -->
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+              <div class="mb-3">
+                <label for="username" class="form-label">
+                  <i class="fas fa-user me-2"></i>Username
+                </label>
+                <input type="text"
+                       class="form-control form-control-lg"
+                       id="username"
+                       formControlName="username"
+                       [class.is-invalid]="submitted && f['username'].errors"
+                       placeholder="Enter your username"
+                       autocomplete="username">
+                <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
+                  <i class="fas fa-exclamation-circle me-1"></i>Username is required
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="password" class="form-label">
+                  <i class="fas fa-lock me-2"></i>Password
+                </label>
+                <div class="input-group">
+                  <input [type]="showPassword ? 'text' : 'password'"
+                         class="form-control form-control-lg"
+                         id="password"
+                         formControlName="password"
+                         [class.is-invalid]="submitted && f['password'].errors"
+                         placeholder="Enter your password"
+                         autocomplete="current-password">
+                  <button class="btn btn-outline-secondary"
+                          type="button"
+                          (click)="togglePasswordVisibility()"
+                          title="Toggle password visibility">
+                    <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                  </button>
+                </div>
+                <div *ngIf="submitted && f['password'].errors" class="invalid-feedback d-block">
+                  <i class="fas fa-exclamation-circle me-1"></i>Password is required
+                </div>
+              </div>
+
+              <div class="mb-3 form-check">
+                <input type="checkbox"
+                       class="form-check-input"
+                       id="rememberMe"
+                       formControlName="rememberMe">
+                <label class="form-check-label" for="rememberMe">
+                  <i class="fas fa-bookmark me-1"></i>Remember me
+                </label>
+              </div>
+
+              <div class="d-grid gap-2">
+                <button type="submit"
+                        class="btn btn-primary btn-lg"
+                        [disabled]="loading">
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status"></span>
+                  <i *ngIf="!loading" class="fas fa-sign-in-alt me-2"></i>
+                  {{loading ? 'Signing in...' : 'Sign In'}}
+                </button>
+
+                <button type="button"
+                        class="btn btn-outline-secondary"
+                        (click)="clearForm()"
+                        [disabled]="loading">
+                  <i class="fas fa-eraser me-2"></i>Clear Form
+                </button>
+              </div>
+            </form>
+
+            <div class="text-center mt-4">
+              <small class="text-muted">
+                <i class="fas fa-info-circle me-1"></i>
+                Demo admin login with single predefined account
+              </small>
+            </div>
+          </div>
+
+          <div class="card-footer bg-light text-center py-3">
+            <small class="text-muted">
+              <i class="fas fa-shield-alt me-1"></i>
+              Secure admin access for Welfast Hearing
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

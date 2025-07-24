@@ -1,0 +1,97 @@
+
+<div class="blog-container">
+  <!-- Header -->
+  <div class="blog-header">
+    <h1 class="blog-title">Our Blog</h1>
+    <p class="blog-subtitle">Discover insights, stories, and expert knowledge</p>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-3 text-muted">Loading amazing content...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-state">
+    <i class="bi bi-exclamation-triangle-fill"></i>
+    <h5>Oops! Something went wrong</h5>
+    <p>{{ error }}</p>
+    <button class="retry-btn" (click)="getBlogs()">
+      <i class="bi bi-arrow-clockwise me-2"></i>Try Again
+    </button>
+  </div>
+
+  <!-- Blog Grid -->
+  <div *ngIf="!loading && !error && mappeddata.length > 0" class="blog-grid">
+    <article *ngFor="let blog of mappeddata; let i = index" class="blog-card">
+      <div class="card-image">
+        <img
+          [src]="blog.image"
+          [alt]="blog.heading"
+          loading="lazy"
+          (error)="onImageError($event)"
+        >
+        <span class="card-category">Article</span>
+      </div>
+      <div class="card-content">
+        <div class="card-meta">
+          <span><i class="bi bi-calendar3"></i> Recent</span>
+          <span><i class="bi bi-clock"></i> {{ getReadingTime(blog.content) }} min read</span>
+        </div>
+        <h2 class="card-title">{{ blog.heading }}</h2>
+        <p class="card-excerpt">{{ getTruncatedContent(blog.content) }}</p>
+        <div class="card-footer">
+          <div class="author-info">
+            <div class="author-avatar">{{ getAuthorInitials() }}</div>
+            <span>Wellfast Health</span>
+          </div>
+          <button
+            class="read-more-btn"
+            (click)="openModal(blog)"
+          >
+            Read More <i class="bi bi-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && !error && mappeddata.length === 0" class="empty-state">
+    <i class="bi bi-journal-x"></i>
+    <h3>No Blog Posts Yet</h3>
+    <p>We're working on some amazing content. Check back soon!</p>
+  </div>
+
+  <!-- Custom Modal -->
+  <div *ngIf="showModal" class="custom-modal-overlay" (click)="closeModal()">
+    <div class="custom-modal-content" (click)="$event.stopPropagation()">
+      <div class="custom-modal-header">
+        <h5 class="custom-modal-title">{{ selectedBlog?.heading }}</h5>
+        <button type="button" class="custom-close-btn" (click)="closeModal()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <div class="custom-modal-body">
+        <img
+          [src]="selectedBlog?.image"
+          [alt]="selectedBlog?.heading"
+          class="img-fluid custom-modal-image"
+          (error)="onImageError($event)"
+        >
+        <div class="blog-content">
+          <div [innerHTML]="selectedBlog?.content"></div>
+        </div>
+      </div>
+      <div class="custom-modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="shareBlog(selectedBlog)">
+          <i class="bi bi-share"></i> Share
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

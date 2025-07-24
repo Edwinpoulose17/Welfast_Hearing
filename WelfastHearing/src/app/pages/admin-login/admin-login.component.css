@@ -1,0 +1,116 @@
+.admin-login-container {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px 0;
+}
+
+.card {
+  border-radius: 15px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.card-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  border-bottom: none;
+}
+
+.form-control:focus, .form-control-lg:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:focus {
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.5);
+}
+
+.btn-primary:disabled {
+  transform: none;
+  opacity: 0.7;
+}
+
+.input-group .btn-outline-secondary {
+  border-color: #ced4da;
+}
+
+.input-group .btn-outline-secondary:hover {
+  background-color: #f8f9fa;
+  border-color: #667eea;
+  color: #667eea;
+}
+
+.alert-info {
+  background-color: #e3f2fd;
+  border-color: #bbdefb;
+  color: #0d47a1;
+  border-radius: 10px;
+}
+
+.alert-success {
+  background-color: #e8f5e8;
+  border-color: #c3e6c3;
+  color: #155724;
+  border-radius: 10px;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+  border-radius: 10px;
+}
+
+.form-check-input:checked {
+  background-color: #667eea;
+  border-color: #667eea;
+}
+
+.btn-outline-primary {
+  color: #667eea;
+  border-color: #667eea;
+}
+
+.btn-outline-primary:hover {
+  background-color: #667eea;
+  border-color: #667eea;
+  color: white;
+}
+
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+}
+
+code {
+  background-color: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 0.85em;
+}
+
+@media (max-width: 768px) {
+  .admin-login-container {
+    padding: 10px;
+  }
+
+  .card-body {
+    padding: 1.5rem !important;
+  }
+
+  .alert-info .row .col-md-6 {
+    margin-bottom: 10px;
+  }
+}

@@ -1,0 +1,110 @@
+.container {
+  max-width: 1000px;
+  font-family:  "Inria Sans", sans-serif;
+  /* font-weight: 300; */
+  color: rgb(0, 0, 0);
+  font-size: 18px;
+  word-spacing: 3px;
+}
+
+.heading {
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  padding-top: 20px;
+}
+
+.subheading {
+  text-align: center;
+  color: white;
+  /* font-size: 14px; */
+  margin-bottom: 20px;
+}
+
+.tab-container {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  padding: 0;
+  border-radius: 15px 15px 15px 15px; /* Rounded top corners */
+  position: relative;
+}
+
+/* Custom Tab Styles */
+.custom-tabs {
+  display: flex;
+  width: 100%;
+  border-bottom: none;
+  border-radius: 15px 15px 0 0;
+  overflow: hidden;
+}
+
+.custom-tabs .nav-item {
+  flex: 1;
+}
+
+.custom-tabs .nav-link {
+  width: 100%;
+  text-align: center;
+  color: white;
+  background-color: #939393;
+  border-radius: 0;
+  border: none;
+  padding: 15px;
+  font-weight: bold;
+  transition: background 0.3s ease-in-out;
+  height: 107px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-tabs .nav-link.active {
+  background-color: #ffffff;
+  color: var(----ActiveBase);
+  font-weight: bold;
+}
+
+.custom-tabs .nav-link:hover {
+  background-color: #858585;
+}
+
+.tab-content {
+  padding: 20px;
+}
+
+.product-title {
+  font-weight: bold;
+  color: #ffa500;
+}
+
+.product-description {
+  /* font-size: 14px; */
+  margin-bottom: 10px;
+  font-family:  Inria Sans, sans-serif;
+  font-weight: 300;
+}
+
+.product-image {
+  width: 100%;
+  max-width: 250px;
+  border-radius: 13px;
+  margin-top: 10px;
+  /* height: 250px;
+  object-fit: contain; */
+  /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); */
+}
+
+.btn-custom {
+  background-color: var(--BaseColor);
+  color: white;
+  border-radius: 15px;
+  margin-top: 5px;
+  padding: 8px 16px;
+  border: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-custom:hover {
+  background-color: #e68900;
+  transform: scale(1.05);
+}

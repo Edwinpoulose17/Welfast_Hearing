@@ -1,5 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
+
+
 :root {
-  --primaryColor: #F4A228;
- --secondaryColor:#EE2D24;
+  --ActiveBase: #F4A228;
+ --BaseColor:#EE2D24;
  --white: #ffffff;
+}
+.btnwhite {
+  color: rgb(0, 0, 0);
+  background-color: var(--white);
+  width: 200px;
+}
+
+.btnwhite:hover {
+  color: var(--BaseColor);
+  background-color: var(--white);
+  width: 200px;
 }

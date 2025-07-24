@@ -1,0 +1,159 @@
+.card-text {
+  white-space: pre-line;
+}
+.text-editor-toolbar {
+  border-bottom: none !important;
+  border-radius: 5px 5px 0 0;
+  background-color: #f8f9fa !important;
+}
+
+.text-editor-toolbar .btn {
+  border: 1px solid #dee2e6;
+  background: white;
+  font-size: 12px;
+  padding: 4px 8px;
+  margin-right: 2px;
+}
+
+.text-editor-toolbar .btn:hover {
+  background: #e9ecef;
+  border-color: #007bff;
+}
+
+.text-editor-toolbar .btn:active,
+.text-editor-toolbar .btn.active {
+  background: #007bff !important;
+  color: white !important;
+  border-color: #007bff;
+}
+
+/* FIXED: Text Editor Styles */
+.text-editor {
+  /* Override Bootstrap form-control conflicts */
+  border-radius: 0 0 5px 5px !important;
+  border-top: none !important;
+  min-height: 150px;
+  max-height: 300px;
+  padding: 12px !important;
+  line-height: 1.5 !important;
+  font-family: inherit !important;
+  font-size: 14px !important;
+
+  /* Fix text wrapping and cursor issues */
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+
+  /* Prevent Bootstrap interference */
+  resize: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+}
+
+.text-editor:focus {
+  outline: none !important;
+  border-color: #007bff !important;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+}
+
+/* FIXED: Placeholder styling */
+.text-editor:empty:before {
+  content: attr(data-placeholder);
+  color: #6c757d;
+  font-style: italic;
+  pointer-events: none;
+}
+
+.text-editor:focus:empty:before {
+  color: #adb5bd;
+}
+
+/* Formatting styles inside editor */
+.text-editor p {
+  margin-bottom: 8px !important;
+  margin-top: 0 !important;
+}
+
+.text-editor div {
+  margin-bottom: 4px;
+}
+
+.text-editor ul,
+.text-editor ol {
+  padding-left: 20px !important;
+  margin-bottom: 8px !important;
+  margin-top: 0 !important;
+}
+
+.text-editor li {
+  margin-bottom: 4px !important;
+}
+
+.text-editor strong {
+  font-weight: bold !important;
+}
+
+.text-editor em {
+  font-style: italic !important;
+}
+
+.text-editor u {
+  text-decoration: underline !important;
+}
+
+/* Fix for Bootstrap's line-height inheritance */
+.text-editor * {
+  line-height: inherit !important;
+}
+
+/* Content display in cards - FIXED */
+.content-display {
+  max-height: 120px;
+  overflow-y: auto;
+  word-wrap: break-word;
+  line-height: 1.4;
+}
+
+.content-display p {
+  margin-bottom: 8px;
+}
+
+.content-display p:last-child {
+  margin-bottom: 0;
+}
+
+.content-display ul,
+.content-display ol {
+  padding-left: 20px;
+  margin-bottom: 8px;
+}
+
+.content-display li {
+  margin-bottom: 4px;
+}
+
+.content-display strong {
+  font-weight: bold;
+}
+
+.content-display em {
+  font-style: italic;
+}
+
+.content-display u {
+  text-decoration: underline;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .text-editor-toolbar .btn {
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+
+  .text-editor {
+    min-height: 120px;
+    font-size: 13px !important;
+  }
+}

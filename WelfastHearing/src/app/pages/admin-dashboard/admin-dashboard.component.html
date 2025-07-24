@@ -1,0 +1,238 @@
+<!-- admin-dashboard.component.html - FIXED TO MATCH TypeScript -->
+<div class="container my-5">
+  <!-- Single Message -->
+  <div
+    *ngIf="message"
+    class="alert"
+    [class.alert-success]="message.includes('✅')"
+    [class.alert-danger]="message.includes('❌')"
+    [class.alert-info]="message.includes('Uploading')"
+  >
+    {{ message }}
+  </div>
+
+  <!-- Tabs -->
+  <ul class="nav nav-tabs mb-4">
+    <li class="nav-item" (click)="switchTab('Upload Blogs')">
+      <a class="nav-link" [class.active]="activeTab === 'Upload Blogs'"
+        >📝 Blogs</a
+      >
+    </li>
+    <li class="nav-item" (click)="switchTab('Upload Products')">
+      <a class="nav-link" [class.active]="activeTab === 'Upload Products'"
+        >📦 Products</a
+      >
+    </li>
+    <li class="nav-item" (click)="switchTab('Upload Services')">
+      <a class="nav-link" [class.active]="activeTab === 'Upload Services'"
+        >🛠️ Services</a
+      >
+    </li>
+  </ul>
+
+  <!-- Upload Form -->
+  <form
+    [formGroup]="uploadForm"
+    (ngSubmit)="onSubmit()"
+    class="border p-4 mb-4"
+  >
+    <!-- Image -->
+    <div class="mb-3">
+      <label>Image:</label>
+      <input
+        type="file"
+        id="fileInput"
+        class="form-control"
+        (change)="uploadImage($event)"
+        accept="image/*"
+      />
+      <div *ngIf="imagePreview" class="mt-2">
+        <img
+          [src]="imagePreview"
+          style="max-width: 200px"
+          class="img-thumbnail"
+        />
+      </div>
+      <div *ngIf="submitted && f['img'].invalid" class="text-danger">
+        Image required
+      </div>
+    </div>
+
+    <!-- Heading -->
+    <div class="mb-3">
+      <label>Heading:</label>
+      <input
+        formControlName="heading"
+        class="form-control"
+        placeholder="Enter heading"
+      />
+      <div *ngIf="submitted && f['heading'].invalid" class="text-danger">
+        Heading required
+      </div>
+    </div>
+
+    <!-- Product Type (Only for Products) -->
+    <div class="mb-3" *ngIf="isProductTab">
+      <label>Product Type: <span class="text-danger">*</span></label>
+      <select formControlName="type" class="form-control">
+        <option value="">Select a product type</option>
+        <option
+          *ngFor="let category of productCategories"
+          [value]="category.value"
+        >
+          {{ category.label }}
+        </option>
+      </select>
+      <div
+        *ngIf="submitted && isProductTab && !f['type'].value"
+        class="text-danger"
+      >
+        Product type is required
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label>Content:</label>
+
+      <!-- Text Formatting Toolbar -->
+      <div class="text-editor-toolbar border p-2 bg-light mb-0">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-secondary me-1"
+          (click)="formatText('bold')"
+          title="Bold"
+        >
+          <strong>B</strong>
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-secondary me-1"
+          (click)="formatText('italic')"
+          title="Italic"
+        >
+          <em>I</em>
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-secondary me-1"
+          (click)="formatText('underline')"
+          title="Underline"
+        >
+          <u>U</u>
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-secondary me-1"
+          (click)="formatText('removeFormat')"
+          title="Clear Formatting"
+        >
+          Clear
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-secondary me-1"
+          (click)="insertList('ul')"
+          title="Bullet List"
+        >
+          • List
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-secondary"
+          (click)="insertList('ol')"
+          title="Numbered List"
+        >
+          1. List
+        </button>
+      </div>
+
+      <!-- Rich Text Editor - FIXED VERSION -->
+      <div
+        #contentEditor
+        class="form-control text-editor"
+        contenteditable="true"
+        (input)="onContentChange($event)"
+        (blur)="updateFormContent()"
+        style="
+          min-height: 150px;
+          max-height: 300px;
+          overflow-y: auto;
+          border-top: none;
+          border-radius: 0 0 5px 5px;
+          padding: 12px;
+          line-height: 1.5;
+          white-space: pre-wrap;
+        "
+        data-placeholder="Start typing your content here..."
+      ></div>
+
+      <!-- Hidden textarea to sync with form -->
+      <textarea
+        formControlName="content"
+        style="display: none"
+        class="form-control"
+      ></textarea>
+
+      <div *ngIf="submitted && f['content'].invalid" class="text-danger">
+        Content required
+      </div>
+
+      <!-- Character count -->
+      <small class="text-muted">Characters: {{ getContentLength() }}</small>
+    </div>
+
+    <!-- Submit -->
+    <button type="submit" class="btn btn-primary" [disabled]="loading">
+      {{ loading ? "Uploading..." : "Upload" }}
+    </button>
+  </form>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border"></div>
+    <p>Loading...</p>
+  </div>
+
+  <!-- Data List -->
+  <div class="row" *ngIf="!loading">
+    <div class="col-md-4 mb-3" *ngFor="let item of mappeddata">
+      <div class="card">
+        <img
+          [src]="item.image"
+          class="card-img-top"
+          style="height: 200px; object-fit: cover"
+        />
+        <div class="card-body">
+          <h5>{{ item.heading }}</h5>
+
+          <!-- Show type for products -->
+          <div *ngIf="isProductTab && item.type" class="mb-2">
+            <span class="badge bg-secondary">{{
+              getTypeLabel(item.type)
+            }}</span>
+          </div>
+
+          <p>{{ getTruncatedContent(item.content, 150) }}</p>
+          <button class="btn btn-danger btn-sm" (click)="deleteimg(item)">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Data -->
+  <div *ngIf="!loading && mappeddata.length === 0" class="text-center">
+    <p>No data found</p>
+  </div>
+
+  <!-- Logout -->
+  <div class="text-center mt-4">
+    <button class="btn btn-secondary" (click)="logout()">Logout</button>
+  </div>
+</div>
