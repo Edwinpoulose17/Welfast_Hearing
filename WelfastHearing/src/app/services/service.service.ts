@@ -7,10 +7,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ServiceService {
- private baseUrl = environment.url;
+  private baseUrl = environment.url;
 
-  constructor(private http: HttpClient) {}
-private getAuthHeaders() {
+  constructor(private http: HttpClient) { }
+  private getAuthHeaders() {
     let api_key = "123";
     const ParseHeaders = new HttpHeaders({
       'Authorization': `Bearer ${api_key}`
@@ -18,7 +18,7 @@ private getAuthHeaders() {
     });
     return ParseHeaders;
   }
- // For JSON requests (WITH Content-Type)
+  // For JSON requests (WITH Content-Type)
   private getJsonHeaders() {
     let api_key = "123";
     const ParseHeaders = new HttpHeaders({
@@ -39,9 +39,10 @@ private getAuthHeaders() {
     return this.http.get(this.baseUrl + 'get_blogs', { headers });
   }
 
-  deleteBlogs(formData: FormData): Observable<any> {
+  deleteBlogs(id: any): Observable<any> {
+    console.log("Deleting blog with ID:", id);
     const headers = this.getAuthHeaders(); // Add auth headers
-    return this.http.post(this.baseUrl + 'delete_blog', formData, { headers });
+    return this.http.post(this.baseUrl + 'remove_blogs', { "id": id }, { headers });
   }
 
   // Products
@@ -55,9 +56,9 @@ private getAuthHeaders() {
     return this.http.get(this.baseUrl + 'get_products', { headers });
   }
 
-  deleteProducts(formData: FormData): Observable<any> {
+  deleteProducts(id: any): Observable<any> {
     const headers = this.getAuthHeaders(); // Add auth headers
-    return this.http.post(this.baseUrl + 'remove_products', formData, { headers });
+    return this.http.post(this.baseUrl + 'remove_products', { "id": id }, { headers });
   }
 
   // Services
@@ -71,8 +72,8 @@ private getAuthHeaders() {
     return this.http.get(this.baseUrl + 'get_services', { headers });
   }
 
-  deleteServices(formData: FormData): Observable<any> {
+  deleteServices(id: any): Observable<any> {
     const headers = this.getAuthHeaders(); // Add auth headers
-    return this.http.post(this.baseUrl + 'remove_services', formData, { headers });
+    return this.http.post(this.baseUrl + 'remove_services',  { "id": id }, { headers });
   }
 }
