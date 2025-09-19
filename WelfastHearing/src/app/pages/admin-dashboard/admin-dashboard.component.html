@@ -1,4 +1,4 @@
-<!-- admin-dashboard.component.html - FIXED TO MATCH TypeScript -->
+<!-- admin-dashboard.component.html - WITH EDIT FUNCTIONALITY -->
 <div class="container my-5">
   <!-- Single Message -->
   <div
@@ -6,7 +6,7 @@
     class="alert"
     [class.alert-success]="message.includes('✅')"
     [class.alert-danger]="message.includes('❌')"
-    [class.alert-info]="message.includes('Uploading')"
+    [class.alert-info]="message.includes('Uploading') || message.includes('Updating')"
   >
     {{ message }}
   </div>
@@ -30,15 +30,30 @@
     </li>
   </ul>
 
-  <!-- Upload Form -->
+  <!-- Upload/Edit Form -->
   <form
     [formGroup]="uploadForm"
     (ngSubmit)="onSubmit()"
     class="border p-4 mb-4"
   >
+    <!-- Form Title -->
+    <div class="mb-3">
+      <h4 class="text-primary">
+        {{ isEditMode ? '✏️ Edit' : '📤 Upload' }} {{ activeTab.replace('Upload ', '') }}
+      </h4>
+      <div *ngIf="isEditMode" class="alert alert-info py-2">
+        <small>
+          <strong>Editing:</strong> {{ editingItem?.heading }}
+          <button type="button" class="btn btn-sm btn-outline-secondary ms-2" (click)="cancelEdit()">
+            Cancel Edit
+          </button>
+        </small>
+      </div>
+    </div>
+
     <!-- Image -->
     <div class="mb-3">
-      <label>Image:</label>
+      <label class="form-label">Image:</label>
       <input
         type="file"
         id="fileInput"
@@ -52,15 +67,18 @@
           style="max-width: 200px"
           class="img-thumbnail"
         />
+        <div *ngIf="isEditMode && !file" class="text-muted mt-1">
+          <small>Current image (select a new file to replace)</small>
+        </div>
       </div>
-      <div *ngIf="submitted && f['img'].invalid" class="text-danger">
+      <div *ngIf="submitted && f['img'].invalid && !isEditMode" class="text-danger">
         Image required
       </div>
     </div>
 
     <!-- Heading -->
     <div class="mb-3">
-      <label>Heading:</label>
+      <label class="form-label">Heading:</label>
       <input
         formControlName="heading"
         class="form-control"
@@ -71,9 +89,58 @@
       </div>
     </div>
 
+    <!-- Blog SEO Fields (Only for Blogs) -->
+    <div *ngIf="isBlogTab">
+      <!-- SEO Title -->
+      <div class="mb-3">
+        <label class="form-label">SEO Title: <span class="text-danger">*</span></label>
+        <input
+          formControlName="title"
+          class="form-control"
+          placeholder="Enter SEO title (recommended 50-60 characters)"
+          maxlength="60"
+        />
+        <div class="form-text">Characters: {{ f['title'].value?.length || 0 }}/60</div>
+        <div *ngIf="submitted && f['title'].invalid" class="text-danger">
+          SEO Title is required
+        </div>
+      </div>
+
+      <!-- Meta Keywords -->
+      <div class="mb-3">
+        <label class="form-label">Meta Keywords: <span class="text-danger">*</span></label>
+        <input
+          formControlName="metaKeyword"
+          class="form-control"
+          placeholder="Enter meta keywords (comma separated)"
+        />
+        <div class="form-text">Example: health, wellness, hearing aids, medical devices</div>
+        <div *ngIf="submitted && f['metaKeyword'].invalid" class="text-danger">
+          Meta Keywords are required
+        </div>
+      </div>
+
+      <!-- Meta Description -->
+      <div class="mb-3">
+        <label class="form-label">Meta Description: <span class="text-danger">*</span></label>
+        <textarea
+          formControlName="metaDescription"
+          class="form-control"
+          rows="3"
+          placeholder="Enter meta description (recommended 150-160 characters)"
+          maxlength="160"
+        ></textarea>
+        <div class="form-text">Characters: {{ f['metaDescription'].value?.length || 0 }}/160</div>
+        <div *ngIf="submitted && f['metaDescription'].invalid" class="text-danger">
+          <span *ngIf="f['metaDescription'].errors?.['required']">Meta Description is required</span>
+          <span *ngIf="f['metaDescription'].errors?.['maxlength']">Meta Description must be 160 characters or less</span>
+        </div>
+      </div>
+    </div>
+
     <!-- Product Type (Only for Products) -->
     <div class="mb-3" *ngIf="isProductTab">
-      <label>Product Type: <span class="text-danger">*</span></label>
+      <label class="form-label">Product Type: <span class="text-danger">*</span></label>
       <select formControlName="type" class="form-control">
         <option value="">Select a product type</option>
         <option
@@ -91,105 +158,157 @@
       </div>
     </div>
 
+    <!-- Content Section -->
     <div class="mb-3">
-      <label>Content:</label>
+      <label class="form-label">Content:</label>
 
-      <!-- Text Formatting Toolbar -->
-      <div class="text-editor-toolbar border p-2 bg-light mb-0">
-        <button
-          type="button"
-          class="btn btn-sm btn-outline-secondary me-1"
-          (click)="formatText('bold')"
-          title="Bold"
-        >
-          <strong>B</strong>
-        </button>
+      <!-- Simple Formatting Toolbar -->
+      <div class="btn-toolbar mb-2" role="toolbar">
+        <div class="btn-group btn-group-sm me-2" role="group">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="insertText('**', '**')"
+            title="Bold"
+          >
+            <strong>B</strong>
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="insertText('*', '*')"
+            title="Italic"
+          >
+            <em>I</em>
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="insertText('__', '__')"
+            title="Underline"
+          >
+            <u>U</u>
+          </button>
+        </div>
 
-        <button
-          type="button"
-          class="btn btn-sm btn-outline-secondary me-1"
-          (click)="formatText('italic')"
-          title="Italic"
-        >
-          <em>I</em>
-        </button>
+        <div class="btn-group btn-group-sm me-2" role="group">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="insertList('bullet')"
+            title="Bullet List"
+          >
+            • List
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="insertList('number')"
+            title="Numbered List"
+          >
+            1. List
+          </button>
+        </div>
 
-        <button
-          type="button"
-          class="btn btn-sm btn-outline-secondary me-1"
-          (click)="formatText('underline')"
-          title="Underline"
-        >
-          <u>U</u>
-        </button>
-
-        <button
-          type="button"
-          class="btn btn-sm btn-outline-secondary me-1"
-          (click)="formatText('removeFormat')"
-          title="Clear Formatting"
-        >
-          Clear
-        </button>
-
-        <button
-          type="button"
-          class="btn btn-sm btn-outline-secondary me-1"
-          (click)="insertList('ul')"
-          title="Bullet List"
-        >
-          • List
-        </button>
-
-        <button
-          type="button"
-          class="btn btn-sm btn-outline-secondary"
-          (click)="insertList('ol')"
-          title="Numbered List"
-        >
-          1. List
-        </button>
+        <div class="btn-group btn-group-sm" role="group">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="insertLink()"
+            title="Insert Link"
+          >
+            🔗 Link
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="insertText('<h1>', '</h1>')"
+            title="Heading"
+          >
+            H1
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="insertText('<h2>', '</h2>')"
+            title="Heading"
+          >
+            H2
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="insertText('<h3>', '</h3>')"
+            title="Heading"
+          >
+            H3
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="insertText('<h4>', '</h4>')"
+            title="Heading"
+          >
+            H4
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="insertText('<p>', '</p>')"
+            title="Paragraph"
+          >
+            P
+          </button>
+        </div>
       </div>
 
-      <!-- Rich Text Editor - FIXED VERSION -->
-      <div
-        #contentEditor
-        class="form-control text-editor"
-        contenteditable="true"
-        (input)="onContentChange($event)"
-        (blur)="updateFormContent()"
-        style="
-          min-height: 150px;
-          max-height: 300px;
-          overflow-y: auto;
-          border-top: none;
-          border-radius: 0 0 5px 5px;
-          padding: 12px;
-          line-height: 1.5;
-          white-space: pre-wrap;
-        "
-        data-placeholder="Start typing your content here..."
-      ></div>
-
-      <!-- Hidden textarea to sync with form -->
+      <!-- Simple Textarea -->
       <textarea
+        #contentTextarea
         formControlName="content"
-        style="display: none"
-        class="form-control"
+        class="form-control content-textarea"
+        rows="8"
+        placeholder="Start typing your content here...
+
+You can use the buttons above to add formatting:
+
+Or type HTML directly for more control."
       ></textarea>
 
       <div *ngIf="submitted && f['content'].invalid" class="text-danger">
         Content required
       </div>
 
-      <!-- Character count -->
-      <small class="text-muted">Characters: {{ getContentLength() }}</small>
+      <!-- Character count and Preview -->
+      <div class="d-flex justify-content-between mt-2">
+        <small class="text-muted">Characters: {{ f['content'].value?.length || 0 }}</small>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-info"
+          (click)="togglePreview()"
+        >
+          {{ showPreview ? 'Hide Preview' : 'Show Preview' }}
+        </button>
+      </div>
+
+      <!-- Content Preview -->
+      <div *ngIf="showPreview" class="mt-3 p-3 border rounded bg-light">
+        <strong class="text-info">Preview:</strong>
+        <div [innerHTML]="f['content'].value || 'No content to preview'" class="mt-2"></div>
+      </div>
     </div>
 
-    <!-- Submit -->
-    <button type="submit" class="btn btn-primary" [disabled]="loading">
-      {{ loading ? "Uploading..." : "Upload" }}
-    </button>
+    <!-- Submit Buttons -->
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-primary" [disabled]="loading">
+        {{ loading ? (isEditMode ? "Updating..." : "Uploading...") : (isEditMode ? "Update" : "Upload") }}
+      </button>
+
+      <!-- Reset/Cancel Button -->
+      <button type="button" class="btn btn-secondary" (click)="isEditMode ? cancelEdit() : resetForm()">
+        {{ isEditMode ? 'Cancel' : 'Reset Form' }}
+      </button>
+    </div>
   </form>
 
   <!-- Loading -->
@@ -198,17 +317,27 @@
     <p>Loading...</p>
   </div>
 
-  <!-- Data List -->
+  <!-- 📋 DATA CARDS with Edit Buttons -->
   <div class="row" *ngIf="!loading">
     <div class="col-md-4 mb-3" *ngFor="let item of mappeddata">
-      <div class="card">
+      <!-- 🎨 CARD HIGHLIGHTING: Shows which item is being edited -->
+      <div class="card" [class.border-warning]="isEditMode && editingItem?.id === item.id">
         <img
           [src]="item.image"
           class="card-img-top"
           style="height: 200px; object-fit: cover"
         />
         <div class="card-body">
-          <h5>{{ item.heading }}</h5>
+          <h5 class="card-title">{{ item.heading }}</h5>
+
+          <!-- Show SEO info for blogs -->
+          <div *ngIf="isBlogTab && item.title" class="mb-2">
+            <small class="text-muted">
+              <strong>SEO Title:</strong> {{ item.title }}<br>
+              <strong>Keywords:</strong> {{ item.metaKeyword }}<br>
+              <strong>Description:</strong> {{ getTruncatedContent(item.metaDescription, 50) }}
+            </small>
+          </div>
 
           <!-- Show type for products -->
           <div *ngIf="isProductTab && item.type" class="mb-2">
@@ -217,10 +346,27 @@
             }}</span>
           </div>
 
-          <p>{{ getTruncatedContent(item.content, 150) }}</p>
-          <button class="btn btn-danger btn-sm" (click)="deleteimg(item)">
-            Delete
-          </button>
+          <div class="content-preview" [innerHTML]="getTruncatedContent(item.content, 150)"></div>
+
+          <!-- 🔧 ACTION BUTTONS -->
+          <div class="mt-2 d-flex gap-2">
+            <!-- ✏️ EDIT BUTTON - This populates the form -->
+            <button
+              class="btn btn-warning btn-sm"
+              (click)="editItem(item)"
+              [disabled]="loading || (isEditMode && editingItem?.id === item.id)"
+            >
+              {{ isEditMode && editingItem?.id === item.id ? 'Editing...' : 'Edit' }}
+            </button>
+            <!-- 🗑️ DELETE BUTTON -->
+            <button
+              class="btn btn-danger btn-sm"
+              (click)="deleteimg(item)"
+              [disabled]="loading"
+            >
+              Delete
+            </button>
+          </div>
         </div>
       </div>
     </div>

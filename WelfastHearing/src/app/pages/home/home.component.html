@@ -187,9 +187,9 @@
           <div class="container types" style="margin-top: 10px">
             <div class="container">
               <div class="p-2 text-start">
-                <h1 class="" style="color: var(--BaseColor); font-weight: 500">
+                <h2 class="" style="color: var(--BaseColor); font-weight: 500">
                   Why Welfast Hearing?
-                </h1>
+                </h2>
               </div>
             </div>
             <div class="container mt-1">
@@ -263,7 +263,7 @@
     class="container text-center py-5"
     style="font-family: Inria Sans, sans-serif"
   >
-    <h2 class="fw-bold my-5">Why Choose Welfast Hearing?</h2>
+    <h3 class="fw-bold my-5">Why Choose Welfast Hearing?</h3>
     <div class="row justify-content-center">
       <div *ngFor="let card of cards" class="col-6 col-md-4 col-lg-2 mb-4">
         <div class="card">
@@ -279,7 +279,7 @@
                   : (card.fullContent | slice : 0 : 60) + "..."
               }}
             </p>
-            <button class="btn btn-read-more" (click)="toggleContent(card)">
+            <button class="btn btn-read-more" (click)="showmore(card)">
               {{ card.showMore ? "Show Less" : "Read More" }}
             </button>
           </div>

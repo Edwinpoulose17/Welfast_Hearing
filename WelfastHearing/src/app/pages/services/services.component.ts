@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { HearingAidsComponent } from '../hearing-aids/hearing-aids.component';
+import { HearingAidsComponent } from '../products/hearing-aids/hearing-aids.component';
 import { HearingaidService } from '../hearingService/hearingaid.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment';
 import { ServiceService } from '../../services/service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-services',
@@ -19,7 +20,7 @@ services: any[] = [];
   loading = true;
 
   constructor(private servicesService:ServiceService , private meta: Meta,
-    private title: Title,) {
+    private title: Title,private router: Router,) {
     this.title.setTitle('Comprehensive Hearing Services – Tests, Aids & Wax Removal');
 
     // Set meta description
@@ -101,8 +102,9 @@ services: any[] = [];
   }
 
   // Keep your existing toggleReadMore method EXACTLY as it is
-  toggleReadMore(index: number): void {
-    this.services[index].showMore = !this.services[index].showMore;
+  toggleReadMore(service: any): void {
+   console.log(service)
+    this.router.navigate(['/service-details'], { queryParams: { title: service.title, content: service.fullContent, image: service.image } });
   }
 
 

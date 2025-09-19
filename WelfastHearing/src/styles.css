@@ -5,6 +5,61 @@
   --ActiveBase: #F4A228;
  --BaseColor:#EE2D24;
  --white: #ffffff;
+
+
+   /* Colors */
+  --primary-gradient: linear-gradient(45deg, #667eea, #764ba2);
+  --primary-color: #667eea;
+  --primary-dark: #5a6fd8;
+  --secondary-color: #764ba2;
+  --text-primary: #2d3748;
+  --text-secondary: #4a5568;
+  --text-muted: #718096;
+  --text-light: #8e9aaf;
+  --border-color: #e2e8f0;
+  --background-white: #ffffff;
+  --background-light: #f8f9fa;
+  --error-color: #e53e3e;
+  --error-bg: #fed7d7;
+  --error-border: #feb2b2;
+  --success-color: #28a745;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 15px;
+  --spacing-lg: 20px;
+  --spacing-xl: 25px;
+  --spacing-2xl: 30px;
+  --spacing-3xl: 40px;
+
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 15px;
+  --radius-xl: 20px;
+  --radius-full: 50px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.15);
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Typography */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* Z-index */
+  --z-modal: 1050;
 }
 .btnwhite {
   color: rgb(0, 0, 0);

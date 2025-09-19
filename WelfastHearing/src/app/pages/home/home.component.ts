@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { Router, RouterLink } from '@angular/router';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,10 @@ import { Router, RouterLink } from '@angular/router';
 export class HomeComponent {
 
 
+
   constructor(private router: Router, private meta: Meta, private title: Title,) {
+
+
     this.title.setTitle('Expert Hearing Tests & Hearing Aids in Central Coast | Welfast Hearing');
 
     // Set meta description
@@ -85,8 +89,10 @@ export class HomeComponent {
     }
   ];
 
-  toggleContent(card: any) {
-    card.showMore = !card.showMore;
+
+  public showmore(card: any) {
+    console.log(card)
+    this.router.navigate(['/why-choose-welfast'], { queryParams: { title: card.title, content: card.fullContent, image: card.image } });
   }
   private addStructuredData() {
     const script = document.createElement('script');

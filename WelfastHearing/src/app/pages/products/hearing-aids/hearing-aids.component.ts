@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { ServiceService } from '../../services/service.service';
-import { environment } from '../../../environments/environment';
+import { ServiceService } from '../../../services/service.service';
+import { environment } from '../../../../environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-hearing-aids',
@@ -14,7 +15,7 @@ import { environment } from '../../../environments/environment';
 export class HearingAidsComponent {
 
   constructor(private meta: Meta,
-    private title: Title, private serviceService: ServiceService) {
+    private title: Title, private serviceService: ServiceService, private router: Router) {
     // Set page title
     this.title.setTitle('Hearing Aids in Central Coast | Bluetooth & Rechargeable Options');
 
@@ -105,6 +106,9 @@ export class HearingAidsComponent {
         this.setFallbackData(); // Optional: Set empty or fallback data
       }
     });
+  }
+  veiw_product(items: any): void {
+    this.router.navigate(['/product-details'], { queryParams: { name: items.title, description: items.description, image: items.image } });
   }
 
   // Generate a subtitle from the title (optional - you can customize this)

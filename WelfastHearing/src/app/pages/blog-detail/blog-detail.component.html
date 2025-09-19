@@ -1,0 +1,104 @@
+<!-- Loading State -->
+<div *ngIf="loading" class="loading-container">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <p>Loading blog post...</p>
+</div>
+
+<!-- Error State -->
+<div *ngIf="error && !loading" class="error-container">
+  <h2>Blog Post Not Found</h2>
+  <p>{{ error }}</p>
+  <button class="btn btn-primary" (click)="goBackToBlogs()">
+    ← Back to All Blogs
+  </button>
+</div>
+
+<!-- Blog Content -->
+<article *ngIf="blog && !loading" class="blog-detail-container">
+  <!-- Navigation -->
+  <div class="blog-navigation">
+    <button class="btn-back" (click)="goBackToBlogs()">
+      ← Back to All Blogs
+    </button>
+    <button class="btn-share" (click)="shareBlog()">Share Article</button>
+  </div>
+
+  <!-- Blog Header -->
+  <header class="blog-header">
+    <div class="blog-meta">
+      <span
+        ><i class="bi bi-calendar3"></i> {{ formatDate(blog.created_at) }}</span
+      >
+      <span
+        ><i class="bi bi-clock"></i> {{ getReadingTime(blog.content) }} min
+        read</span
+      >
+      <span><i class="bi bi-folder"></i> Article</span>
+    </div>
+
+    <h1 class="blog-title">{{ getBlogTitle(blog) }}</h1>
+
+    <!-- Meta Description Display -->
+    <div *ngIf="blog.metaDescription" class="blog-summary">
+      {{ blog.metaDescription }}
+    </div>
+
+    <!-- Keywords -->
+    <div *ngIf="blog.metaKeyword" class="blog-keywords">
+      <span
+        *ngFor="let keyword of getKeywordTags(blog.metaKeyword)"
+        class="keyword-tag"
+      >
+        {{ keyword }}
+      </span>
+    </div>
+  </header>
+
+  <!-- Featured Image -->
+  <div class="blog-image-container">
+    <img
+      [src]="blog.image"
+      [alt]="getBlogTitle(blog)"
+      class="blog-featured-image"
+      (error)="onImageError($event)"
+    />
+  </div>
+
+  <!-- Blog Content -->
+  <div class="blog-content">
+    <div
+      [innerHTML]="sanitizeContent(blog.content)"
+      class="rendered-content"
+    ></div>
+  </div>
+
+  <!-- Author Info -->
+  <div class="author-section">
+    <div class="author-info">
+      <div class="author-avatar">WH</div>
+      <div class="author-details">
+        <h4>Wellfast Health</h4>
+        <p>Expert health and wellness insights</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Social Sharing -->
+  <div class="sharing-section">
+    <h4>Share this article:</h4>
+    <div class="share-buttons">
+      <button class="share-btn facebook" (click)="shareOnFacebook()">
+        Facebook
+      </button>
+      <button class="share-btn twitter" (click)="shareOnTwitter()">
+        Twitter
+      </button>
+      <button class="share-btn linkedin" (click)="shareOnLinkedIn()">
+        LinkedIn
+      </button>
+      <button class="share-btn copy" (click)="copyLink()">Copy Link</button>
+    </div>
+  </div>
+</article>
