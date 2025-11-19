@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
+import { Component, Inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ServiceService } from '../../../services/service.service';
 import { environment } from '../../../../environments/environment';
@@ -10,38 +10,63 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './hearing-aids.component.html',
-  styleUrl: './hearing-aids.component.css'
+  styleUrl: './hearing-aids.component.css',
 })
 export class HearingAidsComponent {
-
-  constructor(private meta: Meta,
-    private title: Title, private serviceService: ServiceService, private router: Router) {
+  constructor(
+    private meta: Meta,
+    private title: Title,
+    private serviceService: ServiceService,
+    private router: Router,
+    @Inject(DOCUMENT) private document: Document
+  ) {
     // Set page title
-    this.title.setTitle('Hearing Aids in Central Coast | Bluetooth & Rechargeable Options');
+    this.title.setTitle(
+      'Hearing Aids in Central Coast | Bluetooth & Rechargeable Options'
+    );
 
     // Set meta description
     this.meta.updateTag({
       name: 'description',
-      content: 'Explore high-quality hearing aids at Welfast Hearing, including Bluetooth and rechargeable options. We also provide hearing tests and micro suction ear wax removal for complete hearing wellness.'
+      content:
+        'Explore high-quality hearing aids at Welfast Hearing, including Bluetooth and rechargeable options. We also provide hearing tests and micro suction ear wax removal for complete hearing wellness.',
     });
 
     // Set keywords
     this.meta.updateTag({
       name: 'keywords',
-      content: 'Hearing Aids in Central Coast, Bluetooth Hearing Aids, Rechargeable Hearing Aids, Digital Hearing Aids Central Coast, Hearing Aid Fitting Central Coast, Advanced Hearing Aids'
+      content:
+        'Hearing Aids in Central Coast, Bluetooth Hearing Aids, Rechargeable Hearing Aids, Digital Hearing Aids Central Coast, Hearing Aid Fitting Central Coast, Advanced Hearing Aids',
     });
 
     // Set Open Graph tags
-    this.meta.updateTag({ property: 'og:title', content: 'Hearing Aids in Central Coast | Bluetooth & Rechargeable Options' });
-    this.meta.updateTag({ property: 'og:description', content: 'High-quality hearing aids including Bluetooth and rechargeable options in Central Coast.' });
-    this.meta.updateTag({ property: 'og:image', content: 'https://welfasthearing.com.au/assets/hearingProducts/earbudtype.webp' });
-    this.meta.updateTag({ property: 'og:url', content: 'https://welfasthearing.com.au/Hearing-aids' });
+    this.meta.updateTag({
+      property: 'og:title',
+      content:
+        'Hearing Aids in Central Coast | Bluetooth & Rechargeable Options',
+    });
+    this.meta.updateTag({
+      property: 'og:description',
+      content:
+        'High-quality hearing aids including Bluetooth and rechargeable options in Central Coast.',
+    });
+    this.meta.updateTag({
+      property: 'og:image',
+      content:
+        'https://welfasthearing.com.au/assets/hearingProducts/earbudtype.webp',
+    });
+    this.meta.updateTag({
+      property: 'og:url',
+      content: 'https://welfasthearing.com.au/Hearing-aids',
+    });
 
     // Set canonical URL
     this.setCanonicalUrl('https://welfasthearing.com.au/Hearing-aids');
   }
   private setCanonicalUrl(url: string) {
-    let link: HTMLLinkElement = document.querySelector("link[rel='canonical']") || document.createElement('link');
+    let link: HTMLLinkElement =
+      document.querySelector("link[rel='canonical']") ||
+      document.createElement('link');
     link.setAttribute('rel', 'canonical');
     link.setAttribute('href', url);
     document.head.appendChild(link);
@@ -54,10 +79,37 @@ export class HearingAidsComponent {
 
   loading = true;
 
-
-
   ngOnInit(): void {
     this.loadProductsFromAPI();
+    this.addProductSchema();
+  }
+
+  addProductSchema() {
+    const schema = {
+      '@context': 'https://schema.org/',
+      '@type': 'Product',
+      name: 'Rechargeable Hearing Aids',
+      image:
+        'https://welfasthearing.com.au/images/rechargeable-hearing-aids.jpg',
+      description: 'High-quality rechargeable hearing aids.',
+      brand: {
+        '@type': 'Brand',
+        name: 'Welfast Hearing',
+      },
+      offers: {
+        '@type': 'Offer',
+        url: 'https://welfasthearing.com.au/rechargeable-hearing-aids',
+        priceCurrency: 'AUD',
+        price: '399.00',
+        availability: 'https://schema.org/InStock',
+        itemCondition: 'https://schema.org/NewCondition',
+      },
+    };
+
+    const script = this.document.createElement('script');
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify(schema);
+    this.document.head.appendChild(script);
   }
 
   loadProductsFromAPI(): void {
@@ -76,20 +128,21 @@ export class HearingAidsComponent {
             subtitle: this.generateSubtitle(apiProduct.heading), // Generate subtitle from title
             description: apiProduct.content, // API 'content' → UI 'description'
             image: environment.url + apiProduct.image, // Create full image URL
-            type: apiProduct.type // Keep the type for filtering
+            type: apiProduct.type, // Keep the type for filtering
+            slug: this.toSeoFriendly(apiProduct.heading),
           }));
           console.log('All Products:', allProducts); // Debug log
           // Filter products by type into separate arrays
-          this.hearingAidsList = allProducts.filter((product: any) =>
-            product.type === 'hearing-a'
+          this.hearingAidsList = allProducts.filter(
+            (product: any) => product.type === 'hearing-a'
           );
 
-          this.hearingAidAccessoriesList = allProducts.filter((product: any) =>
-            product.type === 'hearing-b'
+          this.hearingAidAccessoriesList = allProducts.filter(
+            (product: any) => product.type === 'hearing-b'
           );
 
-          this.assistiveListeningDevicesList = allProducts.filter((product: any) =>
-            product.type === 'hearing-c'
+          this.assistiveListeningDevicesList = allProducts.filter(
+            (product: any) => product.type === 'hearing-c'
           );
 
           console.log('Hearing Aids:', this.hearingAidsList);
@@ -104,11 +157,21 @@ export class HearingAidsComponent {
         this.loading = false;
         console.error('Error loading products:', error);
         this.setFallbackData(); // Optional: Set empty or fallback data
-      }
+      },
     });
   }
-  veiw_product(items: any): void {
-    this.router.navigate(['/product-details'], { queryParams: { name: items.title, description: items.description, image: items.image } });
+  toSeoFriendly(text: string): string {
+    return text
+     .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-') // replace spaces with dashes
+      .replace(/[^\w\-]+/g, '') // remove non-word characters
+      .replace(/\-\-+/g, '-') // replace multiple dashes with one
+      .replace(/^-+/, '') // trim dashes from start
+      .replace(/-+$/, ''); // trim dashes from end
+  }
+  veiw_product(card: any): void {
+    this.router.navigate(['/product-details', card.slug], { state: { card } });
   }
 
   // Generate a subtitle from the title (optional - you can customize this)
@@ -143,5 +206,4 @@ export class HearingAidsComponent {
         return [];
     }
   }
-
 }

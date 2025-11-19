@@ -307,7 +307,7 @@ export class AdminDashboardComponent {
     if (this.isEditMode && this.editingItem) {
       formData.append('id', this.editingItem.id.toString());
     }
-
+console.log('Form Data ID:', this.uploadForm.get('metaDescription')?.value);
     // Add blog-specific fields
     if (this.isBlogTab) {
       formData.append('meta_title', this.uploadForm.get('title')?.value);
@@ -326,7 +326,7 @@ export class AdminDashboardComponent {
 
     if (this.isEditMode) {
       // UPDATE operations
-      if (this.activeTab === 'Upload Blogs') submitCall = this.service.BlogUpload(formData);
+      if (this.activeTab === 'Upload Blogs') submitCall = this.service.editBlog(formData);
       else if (this.activeTab === 'Upload Products') submitCall = this.service.uploadProducts(formData);
       else submitCall = this.service.uploadServices  (formData);
     } else {
@@ -408,6 +408,7 @@ export class AdminDashboardComponent {
 
         if (res.success && res.data) {
           this.imagedata = res.data;
+          console.log( this.imagedata)
 
           this.mappeddata = this.imagedata.map(item => ({
             id: item.id,
@@ -417,7 +418,7 @@ export class AdminDashboardComponent {
             image: environment.url + item.image,
             title: item.meta_title || item.title || '',
             metaKeyword: item.meta_keyword || item.metaKeyword || '',
-            metaDescription: item.meta_description || item.metaDescription || ''
+            metaDescription: item.meta_desc || item.meta_desc || ''
           }));
 
           console.log('Mapped data:', this.mappeddata);

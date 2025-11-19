@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,24 @@ import { Observable } from 'rxjs';
 export class ServiceService {
   private baseUrl = environment.url;
 
+  // BehaviorSubject to track navbar visibility
+  private navbarVisible = new BehaviorSubject<boolean>(true);
+
+  // Observable that components can subscribe to
+  navbarVisible$ = this.navbarVisible.asObservable();
+
   constructor(private http: HttpClient) { }
+
+  show() {
+    this.navbarVisible.next(true);
+  }
+
+  // Hide the navbar
+  hide() {
+    this.navbarVisible.next(false);
+  }
+
+
   private getAuthHeaders() {
     let api_key = "123";
     const ParseHeaders = new HttpHeaders({
@@ -32,6 +49,10 @@ export class ServiceService {
   BlogUpload(formData: FormData): Observable<any> {
     const headers = this.getAuthHeaders(); // Use FormData headers
     return this.http.post(this.baseUrl + 'blogs_add', formData, { headers });
+  }
+  editBlog(formData: FormData): Observable<any> {
+    const headers = this.getAuthHeaders(); // Use FormData headers
+    return this.http.post(this.baseUrl + 'blogs_edit', formData, { headers });
   }
 
   get_Blogs(): Observable<any> {
@@ -74,6 +95,6 @@ export class ServiceService {
 
   deleteServices(id: any): Observable<any> {
     const headers = this.getAuthHeaders(); // Add auth headers
-    return this.http.post(this.baseUrl + 'remove_services',  { "id": id }, { headers });
+    return this.http.post(this.baseUrl + 'remove_services', { "id": id }, { headers });
   }
 }

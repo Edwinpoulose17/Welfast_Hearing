@@ -1,5 +1,5 @@
 // detailed-page.component.ts
-import { Title } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,90 +13,87 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class DetailedPageComponent implements OnInit {
 
-  // Page data from query parameters
   pageData = {
     title: '',
     content: '',
     image: '',
+    slug: '',
     hasContent: false
   };
 
   loading = true;
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
-    private titleService: Title
+    private route: ActivatedRoute,
+    private titleService: Title,
+    private meta: Meta
   ) { }
 
   ngOnInit(): void {
-    // Simulate loading delay for better UX
     setTimeout(() => {
       this.loadContent();
       this.loading = false;
-    }, 800);
+    }, 300);
   }
 
   private loadContent(): void {
-    // Get query parameters
-    this.route.queryParams.subscribe(params => {
-      this.pageData.title = params['title'] || '';
-      this.pageData.content = params['content'] || '';
-      this.pageData.image = params['image'] || '';
+    // Try to get card data from navigation state first
+    const nav = this.router.getCurrentNavigation();
+    const stateCard = history.state?.card;
+    console.log('Card from state:', stateCard);
 
-      // Check if we have any content to display
-      this.pageData.hasContent = !!(this.pageData.title || this.pageData.content);
-
-      // Set browser title
-      if (this.pageData.title) {
-        this.titleService.setTitle(`${this.pageData.title} - Welfast Hearing`);
-      } else {
-        this.titleService.setTitle('Welfast Hearing - Details');
+    if (stateCard) {
+      this.setPageData(stateCard);
+      console.log('Loaded card from navigation state:', stateCard);
+    } else {
+      // Fallback: user opened URL directly — get slug from route
+      const slug = this.route.snapshot.paramMap.get('slug');
+      if (!slug) {
+        this.router.navigate(['/']);
+        return;
       }
 
-      console.log('Page data loaded:', this.pageData);
-    });
+      // For demo, we can just log warning — ideally fetch from API by slug
+      console.warn('No card data from navigation state. Fetch data using slug:', slug);
+      this.pageData.title = 'Content not available';
+      this.pageData.content = 'Please navigate from the homepage or fetch content dynamically by slug.';
+      this.pageData.hasContent = true;
+
+      this.titleService.setTitle('Welfast Hearing - Details');
+      this.meta.updateTag({ name: 'description', content: this.pageData.content });
+    }
   }
 
-  // Format content with basic paragraph breaks
+  private setPageData(card: any) {
+    this.pageData.title = card.title;
+    this.pageData.content = card.fullContent;
+    this.pageData.image = card.image;
+    this.pageData.slug = card.slug;
+    this.pageData.hasContent = true;
+
+
+    // Set SEO-friendly meta tags
+    this.titleService.setTitle(`${card.title} - Welfast Hearing`);
+    this.meta.updateTag({ name: 'description', content: card.fullContent });
+    this.meta.updateTag({ property: 'og:title', content: card.title });
+    this.meta.updateTag({ property: 'og:description', content: card.fullContent });
+    this.meta.updateTag({ property: 'og:image', content: card.image });
+    this.meta.updateTag({ property: 'og:url', content: `https://welfasthearing.com.au/why-choose-welfast/${card.slug}` });
+  }
+
   getFormattedContent(): string {
-    if (!this.pageData.content) {
-      return '<p>No additional details available.</p>';
-    }
-
-    // Convert double line breaks to paragraphs
-    let formatted = this.pageData.content
-      .split('\n\n')
-      .map(paragraph => paragraph.trim())
-      .filter(paragraph => paragraph.length > 0)
-      .map(paragraph => `<p>${paragraph.replace(/\n/g, '<br>')}</p>`)
-      .join('');
-
-    // If no paragraph breaks found, wrap the entire content
-    if (!formatted.includes('<p>')) {
-      formatted = `<p>${this.pageData.content.replace(/\n/g, '<br>')}</p>`;
-    }
-
-    return formatted;
+    if (!this.pageData.content) return '<p>No content available.</p>';
+    return `<p>${this.pageData.content.replace(/\n/g, '<br>')}</p>`;
   }
 
-  // Check if page has image
-  hasImage(): boolean {
-    return !!this.pageData.image;
-  }
-
-  // Navigation methods
   goBack(): void {
-    if (window.history.length > 1) {
-      window.history.back();
-    } else {
-      this.router.navigate(['/']);
-    }
+    if (window.history.length > 1) window.history.back();
+    else this.router.navigate(['/']);
   }
 
-  // Action methods
   bookConsultation(): void {
-    this.router.navigate(['/Contact-us']);
+    this.router.navigate(['/contact-us']);
   }
 
   callNow(): void {
@@ -105,5 +102,9 @@ export class DetailedPageComponent implements OnInit {
 
   navigateHome(): void {
     this.router.navigate(['/']);
+  }
+
+  hasImage(): boolean {
+    return !!this.pageData.image;
   }
 }

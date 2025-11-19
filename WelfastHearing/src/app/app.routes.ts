@@ -12,6 +12,7 @@ import { DetailedPageComponent } from './pages/detailed-page/detailed-page.compo
 import { ProductDetailComponent } from './pages/products/product-detail/product-detail.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
 import { FAQComponent } from './pages/faq/faq.component';
+import { AllContentComponent } from './seo/all-content/all-content.component';
 
 export const routes: Routes = [
   {
@@ -24,10 +25,14 @@ export const routes: Routes = [
     component: HearingAidsComponent,
   },
   {
-    path: 'Blogs',
-    component: BlogsComponent,
-  },
+    path: 'landing-page',
+    component: AllContentComponent
+
+  }
+  ,
   // NEW: Individual blog post routes
+
+  { path: 'blog', component: BlogsComponent },
   {
     path: 'blog/:slug',
     component: BlogDetailComponent,
@@ -59,19 +64,19 @@ export const routes: Routes = [
     component: FAQComponent,
   },
   {
-    path: 'why-choose-welfast',
+    path: 'why-choose-welfast/:slug',
     component: DetailedPageComponent,
-    data:{type:'why-choose-welfast'}
+    data: { type: 'why-choose-welfast' }
   },
   {
-    path: 'product-details',
+    path: 'product-details/:slug',
     component: ProductDetailComponent,
-    data:{type:'product-details'}
+    data: { type: 'product-details' }
   },
   {
-    path: 'service-details',
+    path: 'service-details/:slug',
     component: DetailedPageComponent,
-    data:{type:'service'}
+    data: { type: 'service' }
   },
   // Optional: Redirect old blog URLs to new format
   {
@@ -84,4 +89,5 @@ export const routes: Routes = [
     path: '**',
     redirectTo: ''
   }
+  ,
 ];

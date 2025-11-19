@@ -1,118 +1,150 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  AfterViewInit,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
 import { Router, RouterLink } from '@angular/router';
-import { of } from 'rxjs';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrls: ['./home.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush, // ✅ Big performance boost
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit, AfterViewInit {
+  @ViewChild('whyChooseSection', { static: true }) sectionRef!: ElementRef;
+  isSectionVisible = false;
 
+  constructor(
+    private router: Router,
+    private meta: Meta,
+    private title: Title
+  ) {
+    // ✅ SEO setup
+    this.title.setTitle(
+      'Expert Hearing Tests & Hearing Aids in Central Coast | Welfast Hearing'
+    );
 
+    this.meta.addTags([
+      {
+        name: 'description',
+        content:
+          'Welfast Hearing offers professional hearing tests, micro suction ear wax removal, and the latest Bluetooth and rechargeable hearing aids. Audiologist-owned care in Central Coast and Lake Macquarie.',
+      },
+      {
+        name: 'keywords',
+        content:
+          'Hearing Tests Central Coast, Rechargeable Hearing Aids, Hearing Clinic in Lake Macquarie, Micro suction Ear wax removal, Bluetooth hearing, Hearing wellness experts in Central Coast',
+      },
+      { property: 'og:title', content: 'Expert Hearing Tests & Hearing Aids in Central Coast | Welfast Hearing' },
+      {
+        property: 'og:description',
+        content:
+          'Welfast Hearing offers professional hearing tests, micro suction ear wax removal, and the latest Bluetooth and rechargeable hearing aids.',
+      },
+      {
+        property: 'og:image',
+        content:
+          'https://welfasthearing.com.au/assets/Banner-images/5.png',
+      },
+      { property: 'og:url', content: 'https://welfasthearing.com.au/' },
+    ]);
 
-  constructor(private router: Router, private meta: Meta, private title: Title,) {
-
-
-    this.title.setTitle('Expert Hearing Tests & Hearing Aids in Central Coast | Welfast Hearing');
-
-    // Set meta description
-    this.meta.updateTag({
-      name: 'description',
-      content: 'Welfast Hearing offers professional hearing tests, micro suction ear wax removal, and the latest Bluetooth and rechargeable hearing aids. Audiologist-owned care in Central Coast and Lake Macquarie.'
-    });
-
-    // Set keywords
-    this.meta.updateTag({
-      name: 'keywords',
-      content: 'Hearing Tests Central Coast, Rechargeable Hearing Aids, Hearing Clinic in Lake Macquarie, Micro suction Ear wax removal, Bluetooth hearing, Hearing wellness experts in Central Coast'
-    });
-
-    // Set Open Graph tags
-    this.meta.updateTag({ property: 'og:title', content: 'Expert Hearing Tests & Hearing Aids in Central Coast | Welfast Hearing' });
-    this.meta.updateTag({ property: 'og:description', content: 'Welfast Hearing offers professional hearing tests, micro suction ear wax removal, and the latest Bluetooth and rechargeable hearing aids.' });
-    this.meta.updateTag({ property: 'og:image', content: '	https://welfasthearing.com.au/assets/Banner-images/5.png' });
-    this.meta.updateTag({ property: 'og:url', content: 'https://welfasthearing.com.au/' });
-
-    // Set canonical URL
     this.setCanonicalUrl('https://welfasthearing.com.au/');
   }
 
+  ngOnInit(): void {}
+
+  ngAfterViewInit(): void {
+    // ✅ Lazy-load the “Why Choose” section when visible
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        this.isSectionVisible = true;
+        observer.disconnect();
+      }
+    });
+
+    observer.observe(this.sectionRef.nativeElement);
+  }
+
   private setCanonicalUrl(url: string) {
-    let link: HTMLLinkElement = document.querySelector("link[rel='canonical']") || document.createElement('link');
+    let link: HTMLLinkElement =
+      document.querySelector("link[rel='canonical']") ||
+      document.createElement('link');
     link.setAttribute('rel', 'canonical');
     link.setAttribute('href', url);
     document.head.appendChild(link);
   }
+
   contactus() {
-    this.router.navigate(['/', 'contact-us'])
+    this.router.navigate(['/', 'contact-us']);
   }
+
   cards = [
     {
+      id: 1,
       title: 'Personalized Care',
-      image: '../../../assets/homewhychoosewellfast/image_1.jpg',
-      content: 'We provide personalized and state-of-the-art hearing care...',
-      fullContent: 'We are committed to providing personalized and state-of-the-art hearing care and the latest technology to each and every customer. We help you choose the latest Assistive Listening Devices (ALDs) and hearing aids based on your hearing loss, lifestyle, expectations, and unique listening goals to be achieved. If you need an invisible hearing aid, a hearing aid that reduces background noise, or one that ensures clarity of speech in challenging environments, we customize your hearing solutions.',
-      showMore: false
+      slug: 'personalized-care',
+      image: '../../../assets/homewhychoosewellfast/image_1.webp',
+      fullContent:
+        'We are committed to providing personalized and state-of-the-art hearing care and the latest technology...',
+      showMore: false,
     },
     {
+      id: 2,
       title: 'Informed Choices',
-      image: '../../../assets/homewhychoosewellfast/image_2.jpg',
-      content: 'We believe in informed choices...',
-      fullContent: 'In Welfast Hearing, we believe in informed choices or decisions made by you. No one else knows better than you about your hearing difficulties and their impact on everyday life. You are well aware of what you expect from hearing aids and your financial situation. Together, through an informed decision-making process, we choose the best hearing solution for you.',
-      showMore: false
+      slug: 'informed-choices',
+      image: '../../../assets/homewhychoosewellfast/image_2.webp',
+      fullContent:
+        'In Welfast Hearing, we believe in informed choices or decisions made by you...',
+      showMore: false,
     },
     {
+      id: 3,
       title: 'Government Funding & Payment Plans',
-      image: '../../../assets/homewhychoosewellfast/image_3.jpg',
-      content: 'We provide affordable hearing solutions...',
-      fullContent: 'We are committed to providing affordable hearing solutions to the community. We assist you in availing of government funding/rebates through the hearing service program (for eligible pensioners and veterans), NDIS, DVA, private health funds, and NSW Workers Compensation. We ensure accessible hearing solutions for the community because the community comes first.',
-      showMore: false
+      slug: 'government-funding-and-payment-plans',
+      image: '../../../assets/homewhychoosewellfast/image_3.webp',
+      fullContent:
+        'We assist you in availing of government funding/rebates through hearing service programs...',
+      showMore: false,
     },
     {
+      id: 4,
       title: 'Ongoing After Care',
-      image: '../../../assets/homewhychoosewellfast/image_4.jpg',
-      content: 'We provide ongoing aftercare and support...',
-      fullContent: 'We believe in long-standing relationships and ongoing aftercare. All hearing aids come with a minimum of a 3-year international warranty and annual hearing care consultations. We understand that hearing difficulties and needs can vary over time, so we accommodate those changes in your hearing aids or select the best solution based on your ongoing needs.',
-      showMore: false
+      slug: 'ongoing-after-care',
+      image: '../../../assets/homewhychoosewellfast/image_4.webp',
+      fullContent:
+        'We believe in long-standing relationships and ongoing aftercare...',
+      showMore: false,
     },
     {
+      id: 5,
       title: 'Hassle-Free Purchase',
-      image: '../../../assets/homewhychoosewellfast/image_5.jpg',
-      content: 'Our 30-day money-back guarantee ensures peace of mind...',
-      fullContent: 'Purchasing hearing aids is a long-term investment in your hearing and overall wellness. Our commitment-free hearing aid trial and 30-day money-back guarantee ensure a hassle-free purchase experience.',
-      showMore: false
-    }
+      slug: 'hassle-free-purchase',
+      image: '../../../assets/homewhychoosewellfast/image_5.webp',
+      fullContent:
+        'Purchasing hearing aids is a long-term investment in your hearing and overall wellness...',
+      showMore: false,
+    },
   ];
 
-
   public showmore(card: any) {
-    console.log(card)
-    this.router.navigate(['/why-choose-welfast'], { queryParams: { title: card.title, content: card.fullContent, image: card.image } });
+    this.router.navigate(['/why-choose-welfast', card.slug], { state: { card } });
   }
-  private addStructuredData() {
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.text = JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "Welfast Hearing",
-      "description": "Professional hearing tests and hearing aids in Central Coast",
-      "url": "https://welfasthearing.com.au",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Central Coast",
-        "addressRegion": "NSW",
-        "addressCountry": "AU"
-      },
-      "telephone": "+0243115511",
-      "priceRange": "$$",
-      "serviceArea": "Central Coast, Lake Macquarie"
-    });
-    document.head.appendChild(script);
+
+  trackByCard(index: number, card: any): number {
+    return card.id;
+  }
+
+  generateSrcSet(image: string): string {
+    const base = image.replace(/\.(jpg|png|webp)$/, '');
+    return `${base}.webp 150w, ${base}.webp 300w, ${base}.webp 600w`;
   }
 }
