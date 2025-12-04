@@ -1,4 +1,4 @@
-<!-- admin-dashboard.component.html - WITH EDIT FUNCTIONALITY -->
+<!-- admin-dashboard.component.html - COMPLETE UPDATED FILE WITH SEO FOR ALL TABS -->
 <div class="container my-5">
   <!-- Single Message -->
   <div
@@ -53,7 +53,7 @@
 
     <!-- Image -->
     <div class="mb-3">
-      <label class="form-label">Image:</label>
+      <label class="form-label">Image: <span class="text-danger">*</span></label>
       <input
         type="file"
         id="fileInput"
@@ -78,7 +78,7 @@
 
     <!-- Heading -->
     <div class="mb-3">
-      <label class="form-label">Heading:</label>
+      <label class="form-label">Heading: <span class="text-danger">*</span></label>
       <input
         formControlName="heading"
         class="form-control"
@@ -89,8 +89,11 @@
       </div>
     </div>
 
-    <!-- Blog SEO Fields (Only for Blogs) -->
-    <div *ngIf="isBlogTab">
+    <!-- 🎯 SEO Fields Section (For ALL Tabs: Blogs, Products, Services) -->
+    <div class="border rounded p-3 mb-3 bg-light">
+      <h5 class="text-success mb-3">🔍 SEO Information</h5>
+      <p class="text-muted small mb-3">SEO fields are required for all content types to improve search engine visibility</p>
+
       <!-- SEO Title -->
       <div class="mb-3">
         <label class="form-label">SEO Title: <span class="text-danger">*</span></label>
@@ -160,7 +163,7 @@
 
     <!-- Content Section -->
     <div class="mb-3">
-      <label class="form-label">Content:</label>
+      <label class="form-label">Content: <span class="text-danger">*</span></label>
 
       <!-- Simple Formatting Toolbar -->
       <div class="btn-toolbar mb-2" role="toolbar">
@@ -168,7 +171,7 @@
           <button
             type="button"
             class="btn btn-outline-secondary"
-            (click)="insertText('**', '**')"
+            (click)="insertText('<strong>', '</strong>')"
             title="Bold"
           >
             <strong>B</strong>
@@ -176,7 +179,7 @@
           <button
             type="button"
             class="btn btn-outline-secondary"
-            (click)="insertText('*', '*')"
+            (click)="insertText('<em>', '</em>')"
             title="Italic"
           >
             <em>I</em>
@@ -184,7 +187,7 @@
           <button
             type="button"
             class="btn btn-outline-secondary"
-            (click)="insertText('__', '__')"
+            (click)="insertText('<u>', '</u>')"
             title="Underline"
           >
             <u>U</u>
@@ -270,9 +273,7 @@
         rows="8"
         placeholder="Start typing your content here...
 
-You can use the buttons above to add formatting:
-
-Or type HTML directly for more control."
+You can use the buttons above to add formatting or type HTML directly for more control."
       ></textarea>
 
       <div *ngIf="submitted && f['content'].invalid" class="text-danger">
@@ -301,12 +302,12 @@ Or type HTML directly for more control."
     <!-- Submit Buttons -->
     <div class="d-flex gap-2">
       <button type="submit" class="btn btn-primary" [disabled]="loading">
-        {{ loading ? (isEditMode ? "Updating..." : "Uploading...") : (isEditMode ? "Update" : "Upload") }}
+        {{ loading ? (isEditMode ? "Updating..." : "Uploading...") : (isEditMode ? "✏️ Update" : "📤 Upload") }}
       </button>
 
       <!-- Reset/Cancel Button -->
       <button type="button" class="btn btn-secondary" (click)="isEditMode ? cancelEdit() : resetForm()">
-        {{ isEditMode ? 'Cancel' : 'Reset Form' }}
+        {{ isEditMode ? '❌ Cancel' : '🔄 Reset Form' }}
       </button>
     </div>
   </form>
@@ -321,21 +322,22 @@ Or type HTML directly for more control."
   <div class="row" *ngIf="!loading">
     <div class="col-md-4 mb-3" *ngFor="let item of mappeddata">
       <!-- 🎨 CARD HIGHLIGHTING: Shows which item is being edited -->
-      <div class="card" [class.border-warning]="isEditMode && editingItem?.id === item.id">
+      <div class="card h-100" [class.border-warning]="isEditMode && editingItem?.id === item.id" [class.border-3]="isEditMode && editingItem?.id === item.id">
         <img
           [src]="item.image"
           class="card-img-top"
           style="height: 200px; object-fit: cover"
+          alt="{{ item.heading }}"
         />
-        <div class="card-body">
+        <div class="card-body d-flex flex-column">
           <h5 class="card-title">{{ item.heading }}</h5>
 
-          <!-- Show SEO info for blogs -->
-          <div *ngIf="isBlogTab && item.title" class="mb-2">
+          <!-- 🎯 Show SEO info for ALL items (Blogs, Products, Services) -->
+          <div *ngIf="item.title" class="mb-2 p-2 bg-light border rounded">
             <small class="text-muted">
-              <strong>SEO Title:</strong> {{ item.title }}<br>
-              <strong>Keywords:</strong> {{ item.metaKeyword }}<br>
-              <strong>Description:</strong> {{ getTruncatedContent(item.metaDescription, 50) }}
+              <strong>🔍 SEO Title:</strong> {{ item.title }}<br>
+              <strong>🏷️ Keywords:</strong> {{ item.metaKeyword }}<br>
+              <strong>📝 Description:</strong> {{ getTruncatedContent(item.metaDescription, 50) }}
             </small>
           </div>
 
@@ -346,25 +348,25 @@ Or type HTML directly for more control."
             }}</span>
           </div>
 
-          <div class="content-preview" [innerHTML]="getTruncatedContent(item.content, 150)"></div>
+          <div class="content-preview mb-3 flex-grow-1" [innerHTML]="getTruncatedContent(item.content, 150)"></div>
 
           <!-- 🔧 ACTION BUTTONS -->
-          <div class="mt-2 d-flex gap-2">
+          <div class="mt-auto d-flex gap-2">
             <!-- ✏️ EDIT BUTTON - This populates the form -->
             <button
-              class="btn btn-warning btn-sm"
+              class="btn btn-warning btn-sm flex-fill"
               (click)="editItem(item)"
               [disabled]="loading || (isEditMode && editingItem?.id === item.id)"
             >
-              {{ isEditMode && editingItem?.id === item.id ? 'Editing...' : 'Edit' }}
+              {{ isEditMode && editingItem?.id === item.id ? '✏️ Editing...' : '✏️ Edit' }}
             </button>
             <!-- 🗑️ DELETE BUTTON -->
             <button
-              class="btn btn-danger btn-sm"
+              class="btn btn-danger btn-sm flex-fill"
               (click)="deleteimg(item)"
               [disabled]="loading"
             >
-              Delete
+              🗑️ Delete
             </button>
           </div>
         </div>
@@ -373,12 +375,12 @@ Or type HTML directly for more control."
   </div>
 
   <!-- No Data -->
-  <div *ngIf="!loading && mappeddata.length === 0" class="text-center">
-    <p>No data found</p>
+  <div *ngIf="!loading && mappeddata.length === 0" class="alert alert-info text-center">
+    <p class="mb-0">📭 No data found. Start by uploading your first {{ activeTab.replace('Upload ', '').toLowerCase() }}!</p>
   </div>
 
   <!-- Logout -->
   <div class="text-center mt-4">
-    <button class="btn btn-secondary" (click)="logout()">Logout</button>
+    <button class="btn btn-secondary" (click)="logout()">🚪 Logout</button>
   </div>
 </div>

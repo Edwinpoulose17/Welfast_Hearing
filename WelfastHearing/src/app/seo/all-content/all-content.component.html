@@ -8,10 +8,7 @@
 
 <!-- Hero Section -->
 <section class="hero-section">
-  <img
-    src="../../../assets/Banner-images/6.webp"
-    alt="Hearing Assessment"
-  />
+  <img src="../../../assets/Banner-images/6.webp" alt="Hearing Assessment" />
   <div class="container">
     <div class="row align-items-center">
       <div class="col-lg-6">
@@ -23,7 +20,16 @@
             Funded Options
           </p>
           <div class="d-flex gap-3 flex-wrap">
-            <button class="btn btn-orange">Book Appointment Online</button>
+            <a
+              href="https://portal.coreplus.com.au/WelfastHearingPvtLtd"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Book Appointment with Welfast Hearing"
+            >
+              <button class="btn btn-orange mt-3">
+                Book Appointment Online
+              </button>
+            </a>
             <button class="btn btn-outline-white" (click)="makeCall()">
               CALL 0243115511
             </button>
@@ -33,36 +39,48 @@
       <div class="col-lg-5 offset-lg-1 mt-5 mt-lg-0">
         <div class="contact-form">
           <h5>Get In Touch</h5>
-          <form>
+          <form
+            action="https://formsubmit.co/admin@welfasthearing.com.au"
+            method="POST"
+          >
             <input
               type="text"
               class="form-control"
-              placeholder="Your name"
+              placeholder="Name"
+              name="Name"
               required
             />
             <input
               type="email"
               class="form-control"
-              placeholder="Your email"
+              placeholder="Email"
+              name="Email"
               required
             />
             <input
               type="tel"
               class="form-control"
               placeholder="Contact number"
+              name="phonenunmber"
               required
             />
             <input
               type="text"
               class="form-control"
-              placeholder="Select your preferred location"
+              placeholder="enter your preferred location"
+              name="location"
             />
-            <select class="form-select" required>
+            <select class="form-select" name="typeofservice" required>
               <option value="">Select What are you looking for</option>
               <option>Hearing Test</option>
               <option>Hearing Aids</option>
               <option>Consultation</option>
             </select>
+            <input
+              type="hidden"
+              name="_next"
+              value="https://welfasthearing.com.au/Contact-us"
+            />
             <button type="submit" class="btn btn-orange w-100 mt-2">
               Submit
             </button>
@@ -143,8 +161,14 @@
             take up to 90+ min.</em
           >
         </p>
-
-        <button class="btn btn-orange mt-3">Book Appointment Online</button>
+        <a
+          href="https://portal.coreplus.com.au/WelfastHearingPvtLtd"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Book Appointment with Welfast Hearing"
+        >
+          <button class="btn btn-orange mt-3">Book Appointment Online</button>
+        </a>
       </div>
       <div class="col-lg-6">
         <div class="assessment-img">
@@ -223,10 +247,10 @@
     <div class="row align-items-center">
       <div class="col-lg-6 mb-5 mb-lg-0">
         <div class="detection-img">
-           <img
-              src="../../../assets/carousal/whychoose3.webp"
-              alt="Family Support"
-            />
+          <img
+            src="../../../assets/carousal/whychoose3.webp"
+            alt="Family Support"
+          />
         </div>
       </div>
       <div class="col-lg-6">
@@ -277,7 +301,14 @@
           </p>
         </div>
 
-        <button class="btn btn-orange mt-3">Book Appointment Online</button>
+        <a
+          href="https://portal.coreplus.com.au/WelfastHearingPvtLtd"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Book Appointment with Welfast Hearing"
+        >
+          <button class="btn btn-orange mt-3">Book Appointment Online</button>
+        </a>
       </div>
     </div>
   </div>
@@ -358,41 +389,55 @@
           <p>with GPs and ENTs to ensure complete care</p>
         </div>
 
-        <button class="btn btn-orange mt-4">Book Appointment Online</button>
-      </div>
+<a
+              href="https://portal.coreplus.com.au/WelfastHearingPvtLtd"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Book Appointment with Welfast Hearing"
+            >
+              <button class="btn btn-orange mt-3">
+                Book Appointment Online
+              </button>
+            </a>      </div>
       <div class="col-lg-6">
         <div class="contact-form">
           <h5>Contact Us</h5>
-          <form>
+          <form  action="https://formsubmit.co/admin@welfasthearing.com.au"
+            method="POST">
             <input
               type="text"
               class="form-control"
               placeholder="Name"
+              name="Name"
               required
             />
             <input
               type="email"
               class="form-control"
               placeholder="Email address"
+              name="Email"
               required
             />
             <input
               type="tel"
               class="form-control"
               placeholder="Phone Number"
+              name="phonenunmber"
               required
             />
             <textarea
               class="form-control"
               rows="3"
               placeholder="Your message"
+              name="message"
             ></textarea>
             <input
               type="text"
               class="form-control"
               placeholder="Select your preferred location"
+              name="location"
             />
-            <select class="form-select" required>
+            <select class="form-select" name="type" required>
               <option value="">Select What are you looking for?</option>
               <option>Hearing Test</option>
               <option>Hearing Aids</option>

@@ -82,6 +82,11 @@ export class ServiceService {
     return this.http.post(this.baseUrl + 'remove_products', { "id": id }, { headers });
   }
 
+  editProduct(formData: FormData): Observable<any> {
+    const headers = this.getAuthHeaders(); // Use FormData headers
+    return this.http.post(this.baseUrl + 'products_edit', formData, { headers });
+  }
+
   // Services
   uploadServices(formData: FormData): Observable<any> {
     const headers = this.getAuthHeaders(); // ADD AUTH HEADERS!
@@ -96,5 +101,10 @@ export class ServiceService {
   deleteServices(id: any): Observable<any> {
     const headers = this.getAuthHeaders(); // Add auth headers
     return this.http.post(this.baseUrl + 'remove_services', { "id": id }, { headers });
+  }
+
+   editService(formData: FormData): Observable<any> {
+    const headers = this.getAuthHeaders(); // Use FormData headers
+    return this.http.post(this.baseUrl + 'services_edit', formData, { headers });
   }
 }

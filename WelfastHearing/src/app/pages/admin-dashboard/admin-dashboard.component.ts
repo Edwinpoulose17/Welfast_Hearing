@@ -1,4 +1,4 @@
-// admin-dashboard.component.ts - WITH EDIT FUNCTIONALITY
+// admin-dashboard.component.ts - COMPLETE UPDATED FILE WITH SEO FOR ALL TABS
 import { Component, ElementRef, Inject, PLATFORM_ID, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -58,7 +58,7 @@ export class AdminDashboardComponent {
       content: ['', Validators.required],
       heading: ['', Validators.required],
       type: [''],
-      // SEO fields for blogs
+      // SEO fields for ALL tabs (blogs, products, services)
       title: ['', Validators.required],
       metaKeyword: ['', Validators.required],
       metaDescription: ['', [Validators.required, Validators.maxLength(160)]]
@@ -77,6 +77,10 @@ export class AdminDashboardComponent {
     return this.activeTab === 'Upload Blogs';
   }
 
+  get isServiceTab(): boolean {
+    return this.activeTab === 'Upload Services';
+  }
+
   uploadImage(event: any) {
     this.file = event.target.files[0];
     if (this.file) {
@@ -87,34 +91,33 @@ export class AdminDashboardComponent {
     }
   }
 
-  // 🎯 FIELD POPULATION CODE - This runs when Edit button is clicked
+  // Edit item - populates form with existing data
   editItem(item: any): void {
-    console.log('Editing item:', item); // Debug log
+    console.log('Editing item:', item);
 
-    // Set edit mode
     this.isEditMode = true;
     this.editingItem = item;
     this.message = '';
 
-    // 📝 POPULATE FORM FIELDS WITH EXISTING DATA
+    // Populate form fields with existing data
     this.uploadForm.patchValue({
-      heading: item.heading,           // ← Populates heading field
-      content: item.content,           // ← Populates content textarea
-      type: item.type || '',          // ← Populates product type dropdown
-      title: item.title || '',        // ← Populates SEO title (blogs only)
-      metaKeyword: item.metaKeyword || '',      // ← Populates meta keywords (blogs only)
-      metaDescription: item.metaDescription || '' // ← Populates meta description (blogs only)
+      heading: item.heading,
+      content: item.content,
+      type: item.type || '',
+      title: item.title || '',
+      metaKeyword: item.metaKeyword || '',
+      metaDescription: item.metaDescription || ''
     });
 
-    // 🖼️ SET IMAGE PREVIEW to show current image
+    // Set image preview to show current image
     this.imagePreview = item.image;
-    this.file = null; // Clear file input since we're showing existing image
+    this.file = null;
 
-    // 🔧 REMOVE image requirement for edit mode (since image already exists)
+    // Remove image requirement for edit mode
     this.uploadForm.get('img')?.clearValidators();
     this.uploadForm.get('img')?.updateValueAndValidity();
 
-    // 📜 SCROLL TO FORM for better user experience
+    // Scroll to form
     if (isPlatformBrowser(this.platformId)) {
       const formElement = document.querySelector('form');
       if (formElement) {
@@ -123,14 +126,14 @@ export class AdminDashboardComponent {
     }
   }
 
-  // NEW: Cancel edit mode
+  // Cancel edit mode
   cancelEdit(): void {
     this.isEditMode = false;
     this.editingItem = null;
     this.resetForm();
   }
 
-  // Simple text insertion for textarea
+  // Text insertion for textarea
   insertText(startTag: string, endTag: string = ''): void {
     if (isPlatformBrowser(this.platformId) && this.contentTextarea) {
       const textarea = this.contentTextarea.nativeElement;
@@ -277,17 +280,15 @@ export class AdminDashboardComponent {
       return;
     }
 
-    // Additional validation for blogs
-    if (this.isBlogTab) {
-      if (!this.uploadForm.get('title')?.value ||
-          !this.uploadForm.get('metaKeyword')?.value ||
-          !this.uploadForm.get('metaDescription')?.value) {
-        this.message = '❌ Please fill all blog SEO fields';
-        return;
-      }
+    // 🎯 SEO validation for ALL tabs (blogs, products, services)
+    if (!this.uploadForm.get('title')?.value ||
+        !this.uploadForm.get('metaKeyword')?.value ||
+        !this.uploadForm.get('metaDescription')?.value) {
+      this.message = '❌ Please fill all SEO fields (Title, Keywords, Description)';
+      return;
     }
 
-    // Additional validation for products
+    // Additional validation for products only
     if (this.isProductTab && !this.uploadForm.get('type')?.value) {
       this.message = '❌ Please select a product type';
       return;
@@ -295,7 +296,7 @@ export class AdminDashboardComponent {
 
     const formData = new FormData();
 
-    // Add image only if a new one is selected, or if we're creating (not editing)
+    // Add image only if a new one is selected
     if (this.file) {
       formData.append('img', this.file);
     }
@@ -307,14 +308,13 @@ export class AdminDashboardComponent {
     if (this.isEditMode && this.editingItem) {
       formData.append('id', this.editingItem.id.toString());
     }
-console.log('Form Data ID:', this.uploadForm.get('metaDescription')?.value);
-    // Add blog-specific fields
-    if (this.isBlogTab) {
-      formData.append('meta_title', this.uploadForm.get('title')?.value);
-      formData.append('meta_keyword', this.uploadForm.get('metaKeyword')?.value);
-      formData.append('meta_description', this.uploadForm.get('metaDescription')?.value);
-    }
 
+    // 🎯 ADD META FIELDS FOR ALL TABS (Blogs, Products, Services)
+    formData.append('meta_title', this.uploadForm.get('title')?.value);
+    formData.append('meta_keyword', this.uploadForm.get('metaKeyword')?.value);
+    formData.append('meta_description', this.uploadForm.get('metaDescription')?.value);
+
+    // Add product-specific type field
     if (this.isProductTab) {
       formData.append('type', this.uploadForm.get('type')?.value);
     }
@@ -327,8 +327,8 @@ console.log('Form Data ID:', this.uploadForm.get('metaDescription')?.value);
     if (this.isEditMode) {
       // UPDATE operations
       if (this.activeTab === 'Upload Blogs') submitCall = this.service.editBlog(formData);
-      else if (this.activeTab === 'Upload Products') submitCall = this.service.uploadProducts(formData);
-      else submitCall = this.service.uploadServices  (formData);
+      else if (this.activeTab === 'Upload Products') submitCall = this.service.editProduct(formData);
+      else submitCall = this.service.editService(formData);
     } else {
       // CREATE operations
       if (this.activeTab === 'Upload Blogs') submitCall = this.service.BlogUpload(formData);
@@ -408,7 +408,7 @@ console.log('Form Data ID:', this.uploadForm.get('metaDescription')?.value);
 
         if (res.success && res.data) {
           this.imagedata = res.data;
-          console.log( this.imagedata)
+          console.log(this.imagedata);
 
           this.mappeddata = this.imagedata.map(item => ({
             id: item.id,
@@ -418,7 +418,7 @@ console.log('Form Data ID:', this.uploadForm.get('metaDescription')?.value);
             image: environment.url + item.image,
             title: item.meta_title || item.title || '',
             metaKeyword: item.meta_keyword || item.metaKeyword || '',
-            metaDescription: item.meta_desc || item.meta_desc || ''
+            metaDescription: item.meta_desc || item.meta_description || ''
           }));
 
           console.log('Mapped data:', this.mappeddata);
@@ -433,7 +433,7 @@ console.log('Form Data ID:', this.uploadForm.get('metaDescription')?.value);
 
   switchTab(tab: string) {
     this.activeTab = tab;
-    this.resetForm(); // This will also exit edit mode
+    this.resetForm();
     this.getDataByTab();
   }
 

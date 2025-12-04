@@ -85,26 +85,22 @@ export class HearingAidsComponent {
   }
 
   addProductSchema() {
-    const schema = {
-      '@context': 'https://schema.org/',
-      '@type': 'Product',
-      name: 'Rechargeable Hearing Aids',
-      image:
-        'https://welfasthearing.com.au/images/rechargeable-hearing-aids.jpg',
-      description: 'High-quality rechargeable hearing aids.',
-      brand: {
-        '@type': 'Brand',
-        name: 'Welfast Hearing',
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": this.hearingAidsList.map((item, index) => ({
+      "@type": "Product",
+      "position": index + 1,
+      "name": item.title,
+      "image": item.image,
+      "description": item.description,
+      "brand": {
+        "@type": "Brand",
+        "name": "Welfast Hearing"
       },
-      offers: {
-        '@type': 'Offer',
-        url: 'https://welfasthearing.com.au/rechargeable-hearing-aids',
-        priceCurrency: 'AUD',
-        price: '399.00',
-        availability: 'https://schema.org/InStock',
-        itemCondition: 'https://schema.org/NewCondition',
-      },
-    };
+      "url": `https://welfasthearing.com.au/product-details/${item.slug}`
+    }))
+  };
 
     const script = this.document.createElement('script');
     script.type = 'application/ld+json';

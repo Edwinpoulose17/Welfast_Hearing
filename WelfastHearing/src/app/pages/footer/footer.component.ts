@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
@@ -9,5 +9,19 @@ import { RouterLink } from '@angular/router';
   styleUrl: './footer.component.css'
 })
 export class FooterComponent {
-
+ constructor(private route: ActivatedRoute,private router:Router) { }
+  ngOnInit(): void {
+    this.route.fragment.subscribe(fragment => {
+      const element = document.querySelector(`#${fragment}`);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+    this.router.events.subscribe((event:any) => {
+      if (!(event instanceof NavigationEnd)) {
+        return;
+      }
+      window.scrollTo(0, 0)
+    });
+  }
 }
