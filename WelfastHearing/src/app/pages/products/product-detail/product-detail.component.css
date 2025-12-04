@@ -1,0 +1,275 @@
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+
+
+/* Loading State */
+.loading {
+  text-align: center;
+  padding: 50px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid var(--BaseColor);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Product Detail */
+.product-detail {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+}
+
+.product-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  padding: 40px;
+  align-items: center;
+}
+
+/* Product Image */
+.product-image-section {
+  text-align: center;
+}
+
+.product-image {
+  width: 100%;
+  max-width: 400px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
+}
+
+.product-image:hover {
+  transform: scale(1.02);
+}
+
+/* Product Info */
+.product-info {
+  padding: 20px;
+}
+
+.product-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 25px;
+  line-height: 1.2;
+}
+
+.product-description {
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.8;
+  margin-bottom: 40px;
+}
+
+/* Call Now Section */
+.call-now-section {
+  text-align: center;
+}
+
+.call-now-btn {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  border: none;
+  padding: 20px 40px;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(0,123,255,0.3);
+}
+
+.call-now-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #0056b3, #004085);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,123,255,0.4);
+}
+
+.call-now-btn:active {
+  transform: translateY(-1px);
+}
+
+.call-now-btn:disabled {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.call-now-btn svg {
+  margin-right: 12px;
+  width: 24px;
+  height: 24px;
+}
+
+.call-info {
+  margin-top: 20px;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.phone-number {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #007bff;
+  margin-top: 10px;
+}
+
+/* Calling state */
+.call-now-btn.calling {
+  background: linear-gradient(135deg, #28a745, #218838);
+}
+
+.calling-icon {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.empty-state h3 {
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+.empty-state .btn {
+  background: #007bff;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.3s ease;
+}
+
+.empty-state .btn:hover {
+  background: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  .product-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 30px 20px;
+  }
+
+  .product-image {
+    max-width: 300px;
+    height: 300px;
+  }
+
+  .product-title {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .product-description {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .call-now-btn {
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    width: 100%;
+  }
+
+  .contact-details {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .back-button {
+    position: static;
+    float: right;
+    transform: none;
+    margin-top: 10px;
+  }
+
+  .header-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .breadcrumb {
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-title {
+    font-size: 1.5rem;
+  }
+
+  .product-description {
+    font-size: 0.95rem;
+  }
+
+  .call-now-btn {
+    padding: 12px 25px;
+    font-size: 1rem;
+  }
+
+  .phone-number {
+    font-size: 1.2rem;
+  }
+
+
+}

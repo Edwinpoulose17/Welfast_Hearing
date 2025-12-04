@@ -1,0 +1,56 @@
+<div class="container">
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Loading product details...</p>
+  </div>
+
+  <!-- Product Detail -->
+  <div *ngIf="!loading && product.hasData" class="product-detail">
+
+    <!-- 🔥 JSON-LD Schema -->
+    <script type="application/ld+json">
+      {{ productSchema }}
+    </script>
+
+    <div class="product-content">
+
+      <!-- Product Image -->
+      <div class="product-image-section">
+        <img
+          [src]="product.image || 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=800&q=80'"
+          [alt]="product.name || 'Product Image'"
+          class="product-image"
+          (error)="onImageError($event)"
+        >
+      </div>
+
+      <!-- Product Info -->
+      <div class="product-info">
+        <h1 class="product-title">{{ product.name }}</h1>
+        <p class="product-description">{{ product.description }}</p>
+
+        <div class="call-now-section">
+          <button
+            class="call-now-btn"
+            [class.calling]="isCalling"
+            (click)="onCallNow()"
+            [disabled]="isCalling"
+          >
+            {{ isCalling ? 'Calling...' : 'Call Now to Purchase' }}
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && !product.hasData" class="empty-state">
+    <h3>Product Not Found</h3>
+    <p>We couldn't find the product you're looking for.</p>
+    <button class="btn" (click)="goToProducts()">Browse Products</button>
+  </div>
+
+</div>

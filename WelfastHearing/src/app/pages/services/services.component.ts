@@ -1,57 +1,78 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { HearingAidsComponent } from '../hearing-aids/hearing-aids.component';
+import { HearingAidsComponent } from '../products/hearing-aids/hearing-aids.component';
 import { HearingaidService } from '../hearingService/hearingaid.service';
 import { Meta, Title } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment';
 import { ServiceService } from '../../services/service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-services',
   standalone: true,
-  imports: [
-    CommonModule],
+  imports: [CommonModule],
   templateUrl: './services.component.html',
-  styleUrl: './services.component.css'
+  styleUrl: './services.component.css',
 })
 export class ServicesComponent {
-services: any[] = [];
+  services: any[] = [];
   loading = true;
 
-  constructor(private servicesService:ServiceService , private meta: Meta,
-    private title: Title,) {
-    this.title.setTitle('Comprehensive Hearing Services – Tests, Aids & Wax Removal');
+  constructor(
+    private servicesService: ServiceService,
+    private meta: Meta,
+    private title: Title,
+    private router: Router
+  ) {
+    this.title.setTitle(
+      'Comprehensive Hearing Services – Tests, Aids & Wax Removal'
+    );
 
     // Set meta description
     this.meta.updateTag({
       name: 'description',
-      content: 'Explore professional hearing services at Welfast Hearing—Hearing Tests, Micro Suction Ear Wax Removal, Bluetooth Hearing Aids, and Rechargeable Hearing Aids. Expert care in Central Coast & Lake Macquarie.'
+      content:
+        'Explore professional hearing services at Welfast Hearing—Hearing Tests, Micro Suction Ear Wax Removal, Bluetooth Hearing Aids, and Rechargeable Hearing Aids. Expert care in Central Coast & Lake Macquarie.',
     });
 
     // Set keywords
     this.meta.updateTag({
       name: 'keywords',
-      content: 'Hearing Services in Central Coast, Hearing Tests Central Coast, Micro Suction Ear Wax Removal, Hearing Aids Central Coast, Rechargeable Hearing Aids, Bluetooth Hearing Aids, Audiology Services in Central Coast'
+      content:
+        'Hearing Services in Central Coast, Hearing Tests Central Coast, Micro Suction Ear Wax Removal, Hearing Aids Central Coast, Rechargeable Hearing Aids, Bluetooth Hearing Aids, Audiology Services in Central Coast',
     });
 
     // Set Open Graph tags
-    this.meta.updateTag({ property: 'og:title', content: 'Comprehensive Hearing Services – Tests, Aids & Wax Removal' });
-    this.meta.updateTag({ property: 'og:description', content: 'Professional hearing services including tests, hearing aids, and ear wax removal in Central Coast.' });
-    this.meta.updateTag({ property: 'og:image', content: 'https://welfasthearing.com.au/assets/hearingService/microsuction.jpeg' });
-    this.meta.updateTag({ property: 'og:url', content: 'https://welfasthearing.com.au/Services' });
+    this.meta.updateTag({
+      property: 'og:title',
+      content: 'Comprehensive Hearing Services – Tests, Aids & Wax Removal',
+    });
+    this.meta.updateTag({
+      property: 'og:description',
+      content:
+        'Professional hearing services including tests, hearing aids, and ear wax removal in Central Coast.',
+    });
+    this.meta.updateTag({
+      property: 'og:image',
+      content:
+        'https://welfasthearing.com.au/assets/hearingService/microsuction.jpeg',
+    });
+    this.meta.updateTag({
+      property: 'og:url',
+      content: 'https://welfasthearing.com.au/Services',
+    });
 
     // Set canonical URL
     this.setCanonicalUrl('https://welfasthearing.com.au/Services');
-
   }
   private setCanonicalUrl(url: string) {
-    let link: HTMLLinkElement = document.querySelector("link[rel='canonical']") || document.createElement('link');
+    let link: HTMLLinkElement =
+      document.querySelector("link[rel='canonical']") ||
+      document.createElement('link');
     link.setAttribute('rel', 'canonical');
     link.setAttribute('href', url);
     document.head.appendChild(link);
   }
-
-
 
   ngOnInit(): void {
     this.loadServicesFromAPI();
@@ -61,7 +82,7 @@ services: any[] = [];
     this.loading = true;
 
     this.servicesService.get_services().subscribe({
-      next: (response:any) => {
+      next: (response: any) => {
         this.loading = false;
         console.log('API Response:', response); // Debug log
 
@@ -70,8 +91,9 @@ services: any[] = [];
           this.services = response.data.map((apiService: any) => ({
             // Map API fields to your UI structure
             title: apiService.heading, // API 'heading' → UI 'title'
-            fullText: apiService.content, // API 'content' → UI 'fullText'
-            image: environment.url + apiService.image, // Create full image URL
+            fullContent: apiService.content, // API 'content' → UI 'fullText'
+            image: environment.url + apiService.image,
+            slug: this.toSeoFriendly(apiService.heading), // Create full image URL
 
             // Keep your existing UI functionality
             showMore: false, // Default collapsed state
@@ -84,28 +106,38 @@ services: any[] = [];
               //   content: "",
               //   points: []
               // }
-            ]
+            ],
           }));
+          console.log('Mapped Services:', this.services); // Debug log
         } else {
           console.error('API response not successful:', response);
         }
       },
-      error: (error:any) => {
+      error: (error: any) => {
         this.loading = false;
         console.error('Error loading services:', error);
 
         // Optional: Add fallback data or error handling
         this.services = [];
-      }
+      },
     });
+  }
+  toSeoFriendly(text: string): string {
+    return text
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-') // replace spaces with dashes
+      .replace(/[^\w\-]+/g, '') // remove non-word characters
+      .replace(/\-\-+/g, '-') // replace multiple dashes with one
+      .replace(/^-+/, '') // trim dashes from start
+      .replace(/-+$/, ''); // trim dashes from end
   }
 
   // Keep your existing toggleReadMore method EXACTLY as it is
-  toggleReadMore(index: number): void {
-    this.services[index].showMore = !this.services[index].showMore;
+  toggleReadMore(card: any): void {
+    console.log(card);
+    this.router.navigate(['/service-details', card.slug], { state: { card } });
   }
-
-
 
   // If you want to add subsections dynamically from API data, use this method
   // (Optional - only if your API provides additional structured content)
@@ -121,5 +153,3 @@ services: any[] = [];
     this.loadServicesFromAPI();
   }
 }
-
-

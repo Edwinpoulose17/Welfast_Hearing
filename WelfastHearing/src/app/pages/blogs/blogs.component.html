@@ -1,4 +1,4 @@
-
+<!-- Updated blogs.component.html - NAVIGATION INSTEAD OF MODALS -->
 <div class="blog-container">
   <!-- Header -->
   <div class="blog-header">
@@ -30,30 +30,54 @@
       <div class="card-image">
         <img
           [src]="blog.image"
-          [alt]="blog.heading"
+          [alt]="getBlogTitle(blog)"
           loading="lazy"
           (error)="onImageError($event)"
         >
         <span class="card-category">Article</span>
       </div>
+
       <div class="card-content">
         <div class="card-meta">
           <span><i class="bi bi-calendar3"></i> Recent</span>
           <span><i class="bi bi-clock"></i> {{ getReadingTime(blog.content) }} min read</span>
         </div>
-        <h2 class="card-title">{{ blog.heading }}</h2>
-        <p class="card-excerpt">{{ getTruncatedContent(blog.content) }}</p>
+
+        <!-- Clean blog title -->
+        <h2 class="card-title">
+          {{ getBlogTitle(blog) }}
+        </h2>
+
+        <!-- Clean description -->
+        <div class="card-excerpt">
+          {{ getSEODescription(blog) }}
+        </div>
+
         <div class="card-footer">
           <div class="author-info">
             <div class="author-avatar">{{ getAuthorInitials() }}</div>
             <span>Wellfast Health</span>
           </div>
+
+          <!-- UPDATED: Navigate to blog detail page instead of modal -->
           <button
             class="read-more-btn"
-            (click)="openModal(blog)"
+            (click)="viewBlogPost(blog)"
+            [title]="'Read full article: ' + getBlogTitle(blog)"
           >
             Read More <i class="bi bi-arrow-right"></i>
           </button>
+
+          <!-- ALTERNATIVE: You can also use routerLink -->
+          <!--
+          <a
+            [routerLink]="['/blog', blog.slug]"
+            class="read-more-btn"
+            [title]="'Read full article: ' + getBlogTitle(blog)"
+          >
+            Read More <i class="bi bi-arrow-right"></i>
+          </a>
+          -->
         </div>
       </div>
     </article>
@@ -66,32 +90,6 @@
     <p>We're working on some amazing content. Check back soon!</p>
   </div>
 
-  <!-- Custom Modal -->
-  <div *ngIf="showModal" class="custom-modal-overlay" (click)="closeModal()">
-    <div class="custom-modal-content" (click)="$event.stopPropagation()">
-      <div class="custom-modal-header">
-        <h5 class="custom-modal-title">{{ selectedBlog?.heading }}</h5>
-        <button type="button" class="custom-close-btn" (click)="closeModal()">
-          <i class="bi bi-x-lg"></i>
-        </button>
-      </div>
-      <div class="custom-modal-body">
-        <img
-          [src]="selectedBlog?.image"
-          [alt]="selectedBlog?.heading"
-          class="img-fluid custom-modal-image"
-          (error)="onImageError($event)"
-        >
-        <div class="blog-content">
-          <div [innerHTML]="selectedBlog?.content"></div>
-        </div>
-      </div>
-      <div class="custom-modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
-        <button type="button" class="btn btn-primary" (click)="shareBlog(selectedBlog)">
-          <i class="bi bi-share"></i> Share
-        </button>
-      </div>
-    </div>
-  </div>
+  <!-- REMOVED: All modal-related HTML -->
+  <!-- No more custom modal overlay, modal content, etc. -->
 </div>

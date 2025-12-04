@@ -1,275 +1,139 @@
-<div class="mb-5" style="font-family: Inria Sans, sans-serif">
-  <!-- hero-section -->
+<div class="mb-5" style="font-family: 'Inria Sans', sans-serif;">
 
-  <div>
-    <div id="carouselExampleCaptions" class="carousel slide carousel-fade">
+  <!-- HERO SECTION -->
+  <section aria-label="Hero Carousel">
+    <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel">
+      <!-- Indicators -->
       <div class="carousel-indicators">
-        <button
-          type="button"
-          data-bs-target="#carouselExampleCaptions"
-          data-bs-slide-to="0"
-          class="active"
-          aria-current="true"
-          aria-label="Slide 1"
-        ></button>
-        <button
-          type="button"
-          data-bs-target="#carouselExampleCaptions"
-          data-bs-slide-to="1"
-          aria-label="Slide 2"
-        ></button>
-        <button
-          type="button"
-          data-bs-target="#carouselExampleCaptions"
-          data-bs-slide-to="2"
-          aria-label="Slide 3"
-        ></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+          aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+          aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+          aria-label="Slide 3"></button>
       </div>
+
+      <!-- Carousel Inner -->
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img
-            src="../../../assets/Banner-images/5.png"
-            class="d-block w-100"
-            alt="..."
-          />
+          <img src="../../../assets/Banner-images/5.webp" width="1920" height="800" class="d-block w-100"
+            alt="Audiologist Jithin Jacob - Welfast Hearing" loading="lazy" decoding="async" />
           <div class="carousel-caption text-end">
-            <h1
-              class="text-uppercase"
-              style="
-                font-family: Inria Sans, sans-serif;
-                font-weight: 700;
-                font-style: normal;
-              "
-            >
-              JITHIN JACOB
-            </h1>
+            <h1 class="text-uppercase fw-bold">JITHIN JACOB</h1>
             <h4>
-              BSc Sp&Hg, MSc Audiology, MACAud,<br />
-              Qualified Tinnitus Retraining Therapist.
+              BSc Sp&amp;Hg, MSc Audiology, MACAud,<br />
+              Qualified Tinnitus Retraining Therapist
             </h4>
-            <h6>PRINCIPAL AUDIOLOGIST</h6>
-            <div class="button">
-              <a
-                href="https://portal.coreplus.com.au/WelfastHearingPvtLtd"
+            <h5>PRINCIPAL AUDIOLOGIST</h5>
+            <div class="mt-3">
+              <a href="https://portal.coreplus.com.au/WelfastHearingPvtLtd"
                 target="_blank"
-              >
-                <button type="button" class="btn btnwhite border-0">
-                  Book An Appointment
-                </button></a
-              >
+                rel="noopener noreferrer"
+                aria-label="Book Appointment with Welfast Hearing">
+                <button type="button" class="btn btnwhite border-0">Book An Appointment</button>
+              </a>
             </div>
           </div>
         </div>
+
         <div class="carousel-item">
-          <img
-            src="../../../assets/Banner-images/6.jpeg"
-            class="d-block w-100"
-            alt="..."
-          />
-          <div class="carousel-caption d-none d-md-block">
-            <!-- <h5>Second slide label</h5>
-            <p>Some representative placeholder content for the second slide.</p> -->
-          </div>
+          <img src="../../../assets/Banner-images/6.webp" width="1920" height="800" class="d-block w-100"
+            alt="Hearing Test Consultation Central Coast" loading="lazy" decoding="async" />
         </div>
+
         <div class="carousel-item">
-          <img
-            src="../../../assets/Banner-images/banner-1.jpeg"
-            class="d-block w-100"
-            alt="..."
-          />
-          <div class="carousel-caption d-none d-md-block">
-            <!-- <h5>Second slide label</h5>
-            <p>Some representative placeholder content for the second slide.</p> -->
-          </div>
+          <img src="../../../assets/Banner-images/banner-1.webp" width="1920" height="800" class="d-block w-100"
+            alt="Hearing Aids and Diagnostic Services" loading="lazy" decoding="async" />
         </div>
       </div>
-      <button
-        class="carousel-control-prev"
-        type="button"
-        data-bs-target="#carouselExampleCaptions"
-        data-bs-slide="prev"
-      >
+
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+        data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
       </button>
-      <button
-        class="carousel-control-next"
-        type="button"
-        data-bs-target="#carouselExampleCaptions"
-        data-bs-slide="next"
-      >
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+        data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
       </button>
     </div>
-  </div>
+  </section>
 
-  <!-- <div class="w-100 ">
-    <div id="carouselExample" class="carousel slide">
-      <div class="carousel-inner">
-        <div class="carousel-item active ">
-
-          <div class="hero-section">
-            <div class="content">
-              <h1>Discover Your Hearing Health</h1>
-               <a class="w-100" href="https://portal.coreplus.com.au/TheHearingShop" target="_blank"><button
-                  class="screening-btn">HEARING SCREENING</button></a>
-
-              <button class="clinic-btn" [routerLink]="['/contact-us']" (click)="contactus()">FIND A CLINIC</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-  </div> -->
-
-  <!-- hero-section ends -->
-
-  <!-- basic partner-section -->
-
-  <div class="container">
-    <div class="row">
-      <div
-        class="col-sm-4 d-flex justify-content-center"
-        style="margin-top: 70px"
-      >
+  <!-- ABOUT SECTION -->
+  <section class="container my-5" aria-label="About Welfast Hearing">
+    <div class="row align-items-center">
+      <div class="col-sm-4 d-flex justify-content-center mb-4 mb-sm-0">
         <div class="image-section">
-          <img
-            src="../../../assets/carousal/whychoose3.jpeg"
-            style="
-              width: 100%;
-              height: 100%;
-              object-fit: cover;
-              /* Fills the circle without empty spaces */
-            "
-            alt=""
-          />
+          <img src="../../../assets/carousal/whychoose3.webp" width="450" height="450"
+            alt="Audiologist Consultation Central Coast" loading="lazy" decoding="async"
+            style="width: 100%; height: 100%; object-fit: cover;" />
         </div>
       </div>
-      <div class="col-sm-8 mt-3">
-        <div class="d-flex flex-column">
-          <div class="container types" style="margin-top: 50px">
-            <div class="container">
-              <div class="p-2 text-start">
-                <h1 class="" style="color: var(--BaseColor); font-weight: 500">
-                  Your Hearing Wellness Journey Starts Here
-                </h1>
-              </div>
-            </div>
-            <div class="container mt-1">
-              <div class="text-start">
-                <div class="container p-2" style="display: block">
-                  <p
-                    class="my-1 mx-3"
-                    style="
-                      color: rgb(0, 0, 0);
-                      font-size: 17px;
-                      word-spacing: 3px;
-                    "
-                  >
-                    Welcome to Welfast Hearing, Your trusted hearing wellness
-                    experts in Central Coast and Lake Macquarie. It is not just
-                    about hearing in Welfast Hearing, it is about re-discovering
-                    the hearing wellness and enjoying the full spectrum of
-                    sounds around you. Our mission is to assist you throughout
-                    in your journey to hearing wellness and in regaining the
-                    quality of time you are having with your family and friends.
-                    Our highly skilled audiology team are specialized in tailor
-                    made personalized hearing care that improve your hearing
-                    wellness and quality of life. This includes
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="container types" style="margin-top: 10px">
-            <div class="container">
-              <div class="p-2 text-start">
-                <h1 class="" style="color: var(--BaseColor); font-weight: 500">
-                  Why Welfast Hearing?
-                </h1>
-              </div>
-            </div>
-            <div class="container mt-1">
-              <div class="text-start">
-                <div class="container p-2" style="display: block">
-                  <p
-                    class="my-1 mx-3"
-                    style="
-                      color: rgb(0, 0, 0);
-                      font-size: 17px;
-                      word-spacing: 3px;
-                    "
-                  >
-                    Welfast Hearing is OWNED AND OPERATED BY AUDIOLOGIST. We are
-                    an independent and local business based on Central Coast and
-                    surroundings. We are committed to provide the global
-                    standards in care and technologies to our local communities.
-                    Welfast Hearing is not owned by an equipment manufacture and
-                    we are committed to provide the best possible hearing care
-                    solutions at an affordable price.
-                  </p>
-                </div>
-              </div>
-              <!-- <div class="text-center p-2">
-                <button
-                  style="font-family:Gothic A1, sans-serif; font-weight: 400;color: rgb(255, 255, 255);font-size: 18px; background-color: var(--BaseColor);border-radius: 8px;"
-                  type="button" class="btn  btn-lg">Key highlights </button>
-              </div> -->
-            </div>
-          </div>
+
+      <div class="col-sm-8">
+        <div class="text-start">
+          <h2 class=" fw-semibold mb-3" style="color: var(--BaseColor);">
+            Your Hearing Wellness Journey Starts Here
+          </h2>
+          <p class="fs-6 lh-lg">
+            Welcome to <strong>Welfast Hearing</strong>, your trusted hearing wellness experts in
+            Central Coast and Lake Macquarie. It’s not just about hearing—it’s about rediscovering
+            the joy of sound. Our highly skilled audiology team specializes in tailor-made hearing
+            care to improve your wellness and quality of life.
+          </p>
+
+          <h3 class=" fw-semibold mt-5 mb-3" style="color: var(--BaseColor);">Why Welfast Hearing?</h3>
+          <p class="fs-6 lh-lg">
+            <strong>Welfast Hearing</strong> is <em>owned and operated by audiologists</em> — a
+            local, independent practice in Central Coast. We offer global standards in care and
+            technology to our community, without being influenced by equipment manufacturers,
+            ensuring unbiased and affordable hearing solutions.
+          </p>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="container-fluid services-section my-5">
+  <!-- SERVICES SECTION -->
+  <section class="container-fluid services-section my-5" aria-label="Our Hearing Services">
     <div class="container">
       <div class="row justify-content-center text-center">
-        <div class="col-md-3 d-flex justify-content-center mb-3">
+        <div class="col-6 col-md-3 d-flex justify-content-center mb-3" *ngFor="let service of [
+            {img: '../../../assets/1.svg', title: 'Comprehensive Hearing Test', alt: 'Comprehensive Hearing Test'},
+            {img: '../../../assets/2.svg', title: 'Tinnitus Evaluation', alt: 'Tinnitus Evaluation'},
+            {img: '../../../assets/3.svg', title: 'Hearing Aids Fitting and Care', alt: 'Hearing Aids Fitting and Care'},
+            {img: '../../../assets/4.svg', title: 'Ear Wax Removal', alt: 'Ear Wax Removal'}
+          ]">
           <div class="service-card">
-            <img src="../../../assets/1.svg" alt="Comprehensive Hearing Test" />
-            <p class="service-title">Comprehensive Hearing Test</p>
-          </div>
-        </div>
-        <div class="col-md-3 d-flex justify-content-center mb-3">
-          <div class="service-card">
-            <img src="../../../assets/2.svg" alt="Tinnitus Evaluation" />
-            <p class="service-title">Tinnitus Evaluation</p>
-          </div>
-        </div>
-        <div class="col-md-3 d-flex justify-content-center mb-3">
-          <div class="service-card">
-            <img
-              src="../../../assets/3.svg"
-              alt="Hearing Aids Fitting and Care"
-            />
-            <p class="service-title">Hearing Aids Fitting and Care</p>
-          </div>
-        </div>
-        <div class="col-md-3 d-flex justify-content-center mb-3">
-          <div class="service-card">
-            <img src="../../../assets/4.svg" alt="Ear Wax Removal" />
-            <p class="service-title">Ear Wax Removal</p>
+            <img [src]="service.img" [alt]="service.alt" width="60" height="60" loading="lazy" decoding="async" />
+            <p class="service-title">{{ service.title }}</p>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div
-    class="container text-center py-5"
-    style="font-family: Inria Sans, sans-serif"
-  >
+  <!-- WHY CHOOSE US SECTION -->
+  <section class="container text-center py-5" aria-label="Why Choose Welfast Hearing">
     <h2 class="fw-bold my-5">Why Choose Welfast Hearing?</h2>
     <div class="row justify-content-center">
-      <div *ngFor="let card of cards" class="col-6 col-md-4 col-lg-2 mb-4">
-        <div class="card">
+      <div *ngFor="let card of cards;trackBy: trackByCard" class="col-6 col-md-4 col-lg-2 mb-4">
+        <div class="card h-100 shadow-sm border-0 rounded-3">
           <div class="position-relative">
-            <img [src]="card.image" class="card-img-top" [alt]="card.title" />
-            <h5 class="card-title">{{ card.title }}</h5>
+             <img
+            [src]="card.image"
+            [alt]="card.title"
+            width="300"
+            height="250"
+            class="card-img-top"
+            loading="lazy"
+            decoding="async"
+            [attr.srcset]="generateSrcSet(card.image)"
+            [attr.sizes]="'(max-width: 768px) 100vw, 300px'"
+          />
+            <h5 class="card-title mt-3">{{ card.title }}</h5>
           </div>
           <div class="card-body">
             <p class="card-text">
@@ -279,12 +143,12 @@
                   : (card.fullContent | slice : 0 : 60) + "..."
               }}
             </p>
-            <button class="btn btn-read-more" (click)="toggleContent(card)">
+            <button class="btn btn-read-more  fw-semibold" (click)="showmore(card)">
               {{ card.showMore ? "Show Less" : "Read More" }}
             </button>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </div>

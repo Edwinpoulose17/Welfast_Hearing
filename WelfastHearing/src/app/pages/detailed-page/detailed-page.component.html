@@ -1,0 +1,88 @@
+<div class="header">
+  <div class="header-content">
+    <div class="company-logo">Welfast Hearing</div>
+    <div class="company-tagline">Your trusted partner in hearing care</div>
+  </div>
+</div>
+
+<div class="container">
+  <!-- Breadcrumb -->
+  <!-- <nav class="breadcrumb">
+    <a (click)="navigateHome()" style="cursor: pointer;">Home</a>
+    <span class="breadcrumb-separator">></span>
+    <a (click)="goBack()" style="cursor: pointer;">Back</a>
+    <span class="breadcrumb-separator">></span>
+    <span>{{ pageData.title || 'Details' }}</span>
+
+    <button class="back-button" (click)="goBack()">
+      ← Go Back
+    </button>
+  </nav> -->
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Loading content...</p>
+  </div>
+
+  <!-- Main Content -->
+  <div *ngIf="!loading && pageData.hasContent" class="main-content">
+    <div class="content-header" [class.no-image]="!hasImage()">
+      <img
+        *ngIf="hasImage()"
+        [src]="pageData.image"
+        [alt]="pageData.title"
+        class="header-image"
+        (error)="pageData.image = ''"
+      >
+      <div class="header-overlay"></div>
+      <div class="header-text">
+        <h1 class="page-title">{{ pageData.title || 'Welfast Hearing' }}</h1>
+        <p class="page-subtitle">Your trusted partner in hearing care</p>
+      </div>
+    </div>
+
+    <div class="content-body">
+      <div class="content-text" [innerHTML]="getFormattedContent()"></div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && !pageData.hasContent" class="main-content">
+    <div class="content-header no-image">
+      <div class="header-text">
+        <h1 class="page-title">Welcome to Welfast Hearing</h1>
+        <p class="page-subtitle">Your trusted partner in hearing care</p>
+      </div>
+    </div>
+    <div class="content-body">
+      <div class="empty-state">
+        <h3>No Content Available</h3>
+        <p>We couldn't find the content you're looking for. Please check the link or go back to the previous page.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA Section -->
+  <div *ngIf="!loading" class="cta-section">
+    <h3 class="cta-title">Ready to Improve Your Hearing?</h3>
+    <p class="cta-description">
+      Contact us today to schedule a consultation and take the first step towards better hearing.
+    </p>
+    <div class="cta-buttons">
+      <button class="btn btn-primary" (click)="bookConsultation()">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+          <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+        </svg>
+        Book Consultation
+      </button>
+      <button class="btn btn-secondary" (click)="callNow()">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+        </svg>
+        Call Now
+      </button>
+    </div>
+  </div>
+</div>

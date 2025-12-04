@@ -8,7 +8,7 @@
 <div *ngIf="!loading">
   <div class="w-100" style="background-color: var(--ActiveBase)">
     <div class="container py-5">
-      <h2 class="heading">Hearing Aids and Devices</h2>
+      <h1 class="heading">Hearing Aids and Devices</h1>
       <h4 class="subheading">
         Discover a diverse range of hearing aids crafted to suit adults,
         veterans, and pensioners. Explore the ideal solution tailored to your
@@ -51,7 +51,7 @@
                   <i>{{ item.subtitle }}</i>
                 </h5>
                 <h5 class="product-description">{{ item.description }}</h5>
-                <button class="btn btn-custom mb-4">View Product</button>
+                <button class="btn btn-custom mb-4" (click)="veiw_product(item)" >View Product</button>
               </div>
 
               <!-- Image Section -->
@@ -83,7 +83,7 @@
                   <i>{{ items.subtitle }}</i>
                 </h6>
                 <p class="product-description">{{ items.description }}</p>
-                <button class="btn btn-custom">View Product</button>
+                <button class="btn btn-custom" (click)="veiw_product(items)">View Product</button>
               </div>
 
               <!-- Image Section -->

@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# Disallow admin or private folders (if any)
+Disallow: /admin/
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /.well-known/
+
+# Allow all other content
+Allow: /services/
+Allow: /products/
+Allow: /blog/
+Allow: /contact/
+
+# Sitemap location
+Sitemap: https://welfasthearing.com.au/sitemap.xml

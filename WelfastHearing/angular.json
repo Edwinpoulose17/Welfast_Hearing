@@ -20,7 +20,8 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/Welfast Hearing Branding Kit-12.png",
-              "src/assets"
+              "src/assets",
+              "src/robots.txt"
             ],
             "styles": ["src/styles.css"],
             "scripts": [],
@@ -32,7 +33,7 @@
           },
           "configurations": {
             "production": {
-               "budgets": [
+              "budgets": [
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",

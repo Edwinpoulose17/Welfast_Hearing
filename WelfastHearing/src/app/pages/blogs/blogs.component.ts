@@ -1,7 +1,8 @@
-// Updated blogs.component.ts
+// Updated blogs.component.ts - NAVIGATION INSTEAD OF MODALS
 import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { Blog } from '../../interfaces/blogs';
+import { Meta, Title } from '@angular/platform-browser';
+import { Router } from '@angular/router'; // ADDED: For navigation
 import { ServiceService } from '../../services/service.service';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -19,20 +20,46 @@ export class BlogsComponent implements OnInit, OnDestroy {
   loading = true;
   error = '';
   mappeddata: any[] = [];
-  selectedBlog: any = null; // For custom modal
-  showModal = false; // For custom modal
+
+  // REMOVED: Modal-related properties
+  // selectedBlog: any = null;
+  // showModal = false;
+
+  // Default meta values
+  private defaultTitle = 'WelfastHearing Blog – Insights on micro Suction, Hearing Tests & bluetooth Aids';
+  private defaultDescription = 'Explore the Welfast Hearing blog for expert insights on micro suction ear wax removal, hearing tests, hearing-aids, and the latest in rechargeable and Bluetooth-enabled hearing devices.';
+  private defaultKeywords = 'Micro suctionear wax removal, Hearing Test,HearingAids,Rechargeable hearing aids, Bluetoothhearing aid';
 
   constructor(
     private blogService: ServiceService,
+    private meta: Meta,
+    private titleService: Title,
+    private router: Router, // ADDED: Router for navigation
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
   ngOnInit(): void {
-    console.log('Current environment:', environment);
-    console.log('API URL:', environment.url);
+    this.setDefaultMetaTags();
+
     if (isPlatformBrowser(this.platformId)) {
-    this.getBlogs();
+      this.getBlogs();
+    }
   }
+
+  setDefaultMetaTags(): void {
+    this.titleService.setTitle(this.defaultTitle);
+    this.meta.updateTag({ name: 'description', content: this.defaultDescription });
+    this.meta.updateTag({ name: 'keywords', content: this.defaultKeywords });
+
+    // Open Graph meta tags
+    this.meta.updateTag({ property: 'og:title', content: this.defaultTitle });
+    this.meta.updateTag({ property: 'og:description', content: this.defaultDescription });
+    this.meta.updateTag({ property: 'og:type', content: 'website' });
+
+    // Twitter Card meta tags
+    this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
+    this.meta.updateTag({ name: 'twitter:title', content: this.defaultTitle });
+    this.meta.updateTag({ name: 'twitter:description', content: this.defaultDescription });
   }
 
   getBlogs() {
@@ -57,81 +84,79 @@ export class BlogsComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Clean data mapping with slug generation
   mapImageData() {
     this.mappeddata = this.blogs.map((item: any) => ({
       id: item.id,
       heading: item.heading,
       content: item.content,
-      image: environment.url + item.image
+      image: environment.url + item.image,
+      // Use meta fields if available, fallback to regular fields
+      title: item.meta_title || item.title || item.heading,
+      metaKeyword: item.meta_keyword || item.metaKeyword || '',
+      metaDescription: item.meta_description || item.metaDescription || this.getTruncatedContent(item.content, 160),
+      // ADDED: Generate slug for navigation
+      slug: this.createSlug(item.meta_title || item.title || item.heading),
+      created_at: item.created_at || item.date
     }));
+
+    console.log('Mapped blog data with slugs:', this.mappeddata);
   }
 
-  // Custom modal methods (without body scroll lock)
-  openModal(blog: any) {
-    this.selectedBlog = blog;
-    this.showModal = true;
+  // ADDED: Create URL-friendly slug
+  createSlug(title: string): string {
+    if (!title) return 'blog-post';
+
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+      .replace(/\s+/g, '-') // Replace spaces with hyphens
+      .replace(/-+/g, '-') // Replace multiple hyphens with single
+      .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+  }
+
+  // Get blog title (meta title or fallback)
+  getBlogTitle(blog: any): string {
+    return blog.title || blog.heading || 'Untitled Blog Post';
+  }
+
+  // Get SEO description (meta description or fallback)
+  getSEODescription(blog: any): string {
+    if (blog.metaDescription && blog.metaDescription !== this.getTruncatedContent(blog.content, 160)) {
+      return blog.metaDescription;
+    }
+    return this.getTruncatedContent(blog.content, 150);
+  }
+
+  // UPDATED: Navigate to blog detail instead of opening modal
+  viewBlogPost(blog: any): void {
+    // Track the view for analytics
     this.trackBlogView(blog.id);
 
-    // Only manipulate DOM in browser environment
-    if (isPlatformBrowser(this.platformId)) {
-      // Add ESC key listener
-      this.addKeyListener();
-    }
+    // Navigate to the individual blog post page
+    this.router.navigate(['/blog', blog.slug]);
   }
 
-  closeModal() {
-    this.showModal = false;
-    this.selectedBlog = null;
+  // REMOVED: All modal-related methods
+  // openModal(), closeModal(), updateBlogMetaTags(), keyListener, etc.
 
-    // Only manipulate DOM in browser environment
-    if (isPlatformBrowser(this.platformId)) {
-      // Remove ESC key listener
-      this.removeKeyListener();
-    }
-  }
-
-  // ESC key support
-  private keyListener = (event: KeyboardEvent) => {
-    if (event.key === 'Escape') {
-      this.closeModal();
-    }
-  }
-
-  private addKeyListener() {
-    if (isPlatformBrowser(this.platformId) && typeof document !== 'undefined') {
-      document.addEventListener('keydown', this.keyListener);
-    }
-  }
-
-  private removeKeyListener() {
-    if (isPlatformBrowser(this.platformId) && typeof document !== 'undefined') {
-      document.removeEventListener('keydown', this.keyListener);
-    }
-  }
-
-  ngOnDestroy() {
-    // Clean up event listener if component is destroyed
-    if (isPlatformBrowser(this.platformId)) {
-      this.removeKeyListener();
-    }
-  }
-
-  // Helper method to calculate reading time
+  // Calculate reading time
   getReadingTime(content: string): number {
     if (!content) return 1;
-
     const wordsPerMinute = 200;
     const wordCount = content.trim().split(/\s+/).length;
     const readingTime = Math.ceil(wordCount / wordsPerMinute);
-
     return readingTime < 1 ? 1 : readingTime;
   }
 
-  // Helper method to truncate content for card preview
-  getTruncatedContent(content: string, maxLength: number = 5500): string {
+  // Truncate content for previews
+  getTruncatedContent(content: string, maxLength: number = 150): string {
     if (!content) return '';
 
-    // Remove HTML tags if present
+    // For very short content, return as-is
+    if (content.length <= maxLength) return content;
+
+    // Remove HTML tags for text-only excerpts
     const textContent = content.replace(/<[^>]*>/g, '');
 
     if (textContent.length <= maxLength) return textContent;
@@ -139,10 +164,9 @@ export class BlogsComponent implements OnInit, OnDestroy {
     return textContent.substring(0, maxLength).trim() + '...';
   }
 
-  // Helper method to get author initials
+  // Get author initials
   getAuthorInitials(author?: string): string {
     if (!author) return 'WH';
-
     return author
       .split(' ')
       .map(name => name.charAt(0))
@@ -151,51 +175,35 @@ export class BlogsComponent implements OnInit, OnDestroy {
       .substring(0, 2);
   }
 
-  // Method to handle image loading errors
+  // Handle image loading errors
   onImageError(event: any): void {
     event.target.src = 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
   }
 
-  // Method to format dates
-  formatDate(dateString?: string): string {
-    if (!dateString) return 'Recent';
-
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffTime = Math.abs(now.getTime() - date.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays === 1) return 'Yesterday';
-    if (diffDays < 7) return `${diffDays} days ago`;
-    if (diffDays < 30) return `${Math.ceil(diffDays / 7)} weeks ago`;
-    if (diffDays < 365) return `${Math.ceil(diffDays / 30)} months ago`;
-
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
-  }
-
-  // Method to track blog reading analytics
+  // Track blog views for analytics
   trackBlogView(blogId: string): void {
     console.log(`Blog ${blogId} viewed`);
+    // You can add Google Analytics or other tracking here
   }
 
-  // Method to share blog post
-  shareBlog(blog: any): void {
+  // UPDATED: Simple share functionality for the listing page
+  shareBlogList(): void {
     if (isPlatformBrowser(this.platformId)) {
+      const url = window.location.href;
+      const title = this.defaultTitle;
+      const description = this.defaultDescription;
+
       if (navigator.share) {
-        navigator.share({
-          title: blog.heading,
-          text: this.getTruncatedContent(blog.content, 100),
-          url: window.location.href
-        });
+        navigator.share({ title, text: description, url });
       } else if (navigator.clipboard) {
-        // Fallback to copying URL to clipboard
-        navigator.clipboard.writeText(window.location.href);
+        navigator.clipboard.writeText(url);
         console.log('URL copied to clipboard');
       }
     }
+  }
+
+  ngOnDestroy(): void {
+    // Clean up if needed
+    this.setDefaultMetaTags();
   }
 }

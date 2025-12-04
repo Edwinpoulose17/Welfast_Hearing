@@ -1,0 +1,115 @@
+<div class="about-us-container">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-content">
+      <div class="row align-items-center">
+        <div class="col-lg-8">
+          <h1 class="display-4 fw-bold mb-4">
+            <i class="fas fa-ear-listen me-3"></i>
+            Welfast Hearing
+          </h1>
+          <p class="lead mb-4">Better hearing means a better quality of life</p>
+          <p class="mb-0">Central Coast & Lake Macquarie's trusted hearing care specialists</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Us Section -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="section-title text-center mb-5">About Us</h2>
+        </div>
+      </div>
+
+      <div class="row mb-5">
+        <div class="col-lg-8 mx-auto">
+          <div class="about-card">
+            <p class="mb-4">
+              At Welfast Hearing, we believe that better hearing means a better quality of life.
+              Based on the Central Coast and Lake Macquarie, we are dedicated to helping individuals
+              and families reconnect with the sounds that matter most.
+            </p>
+
+            <p class="mb-4">
+              Our expert team provides a full spectrum of hearing care services, from micro suction
+              ear wax removal and comprehensive hearing tests, to personalised fittings of advanced
+              hearing solutions. We specialise in modern technology such as rechargeable hearing aids
+              and Bluetooth-enabled devices, designed to bring clarity, comfort, and convenience to
+              your everyday life.
+            </p>
+
+            <p class="mb-4">
+              What makes us different is our commitment to personalised care. We take the time to
+              understand your unique needs and provide tailored solutions that fit your lifestyle.
+              Whether you are taking your first step towards better hearing or upgrading to the
+              latest technology, our goal is to ensure you feel supported every step of the way.
+            </p>
+
+            <p class="mb-0">
+              <strong>
+                At Welfast Hearing, it's not just about improving hearing—it's about helping you
+                rediscover the joy of conversation, connection, and community.
+              </strong>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Services Grid -->
+      <div class="row">
+        <div class="col-md-4 mb-4" *ngFor="let service of services">
+          <div class="text-center">
+            <div class="service-icon mx-auto">
+              <i [class]="service.icon"></i>
+            </div>
+            <h5>{{ service.title }}</h5>
+            <p class="text-muted">{{ service.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4" *ngFor="let stat of stats">
+          <div class="stat-item">
+            <span class="stat-number">{{ stat.number }}</span>
+            <p>{{ stat.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+          <h3 class="mb-4">Ready to Improve Your Hearing?</h3>
+          <p class="mb-4">
+            Contact us today for a comprehensive hearing assessment and discover how we can
+            help you reconnect with the sounds that matter most.
+          </p>
+          <div class="button">
+              <a
+                href="https://portal.coreplus.com.au/WelfastHearingPvtLtd"
+                target="_blank"
+              >
+                <button type="btn btn-custom btn-lg" class="btn btnwhite border-0">
+                  Book An Appointment
+                </button></a
+              >
+            </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

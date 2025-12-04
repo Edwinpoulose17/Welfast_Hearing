@@ -1,0 +1,31 @@
+<div class="faq-container">
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="section-title text-center mb-5">Frequently Asked Questions</h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <div class="faq-item" *ngFor="let faq of faqItems; let i = index">
+            <button
+              class="faq-question"
+              [class.active]="faq.isOpen"
+              (click)="toggleFAQ(i)"
+              type="button">
+              {{ faq.question }}
+              <i class="fas fa-chevron-down faq-icon"
+                 [class.rotated]="faq.isOpen"></i>
+            </button>
+            <div class="faq-answer" [class.active]="faq.isOpen">
+              <p>{{ faq.answer }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

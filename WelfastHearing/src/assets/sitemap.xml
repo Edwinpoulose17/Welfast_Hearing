@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Homepage -->
+  <url>
+    <loc>https://welfasthearing.com.au/</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- About Us -->
+  <url>
+    <loc>https://welfasthearing.com.au/about-us</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Services Page -->
+  <url>
+    <loc>https://welfasthearing.com.au/Services</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Hearing Aids (Products) -->
+  <url>
+    <loc>https://welfasthearing.com.au/Hearing-aids</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog Main Page -->
+  <url>
+    <loc>https://welfasthearing.com.au/blog</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Contact Us -->
+  <url>
+    <loc>https://welfasthearing.com.au/Contact-us</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- FAQ -->
+  <url>
+    <loc>https://welfasthearing.com.au/FAQ</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Landing Page -->
+  <url>
+    <loc>https://welfasthearing.com.au/landing-page</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!--
+    DYNAMIC ROUTES - ADD YOUR ACTUAL CONTENT BELOW
+    Replace the examples with your real slugs
+  -->
+
+  <!-- Individual Blog Posts (blog/:slug) -->
+  <!-- Example: Add each blog post you have -->
+  <url>
+    <loc>https://welfasthearing.com.au/blog/best-hearing-aids-2024</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://welfasthearing.com.au/blog/signs-you-need-hearing-test</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Add more blog posts here as you create them -->
+
+
+  <!-- Individual Product Details (product-details/:slug) -->
+  <!-- Example: Add each product you have -->
+  <url>
+    <loc>https://welfasthearing.com.au/product-details/phonak-audeo-lumity</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://welfasthearing.com.au/product-details/oticon-real</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Add more products here -->
+
+
+  <!-- Service Details (service-details/:slug) -->
+  <!-- Example: Add each service detail page you have -->
+  <url>
+    <loc>https://welfasthearing.com.au/service-details/hearing-test</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://welfasthearing.com.au/service-details/ear-wax-removal</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://welfasthearing.com.au/service-details/hearing-aid-fitting</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Add more services here -->
+
+
+  <!-- Why Choose Welfast (why-choose-welfast/:slug) -->
+  <!-- Example: Add each "why choose" page you have -->
+  <url>
+    <loc>https://welfasthearing.com.au/why-choose-welfast/audiologist-owned</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://welfasthearing.com.au/why-choose-welfast/local-central-coast</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Add more "why choose" pages here -->
+
+</urlset>

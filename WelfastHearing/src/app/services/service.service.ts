@@ -1,16 +1,33 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServiceService {
- private baseUrl = environment.url;
+  private baseUrl = environment.url;
 
-  constructor(private http: HttpClient) {}
-private getAuthHeaders() {
+  // BehaviorSubject to track navbar visibility
+  private navbarVisible = new BehaviorSubject<boolean>(true);
+
+  // Observable that components can subscribe to
+  navbarVisible$ = this.navbarVisible.asObservable();
+
+  constructor(private http: HttpClient) { }
+
+  show() {
+    this.navbarVisible.next(true);
+  }
+
+  // Hide the navbar
+  hide() {
+    this.navbarVisible.next(false);
+  }
+
+
+  private getAuthHeaders() {
     let api_key = "123";
     const ParseHeaders = new HttpHeaders({
       'Authorization': `Bearer ${api_key}`
@@ -18,7 +35,7 @@ private getAuthHeaders() {
     });
     return ParseHeaders;
   }
- // For JSON requests (WITH Content-Type)
+  // For JSON requests (WITH Content-Type)
   private getJsonHeaders() {
     let api_key = "123";
     const ParseHeaders = new HttpHeaders({
@@ -33,15 +50,20 @@ private getAuthHeaders() {
     const headers = this.getAuthHeaders(); // Use FormData headers
     return this.http.post(this.baseUrl + 'blogs_add', formData, { headers });
   }
+  editBlog(formData: FormData): Observable<any> {
+    const headers = this.getAuthHeaders(); // Use FormData headers
+    return this.http.post(this.baseUrl + 'blogs_edit', formData, { headers });
+  }
 
   get_Blogs(): Observable<any> {
     const headers = this.getJsonHeaders(); // Add auth headers
     return this.http.get(this.baseUrl + 'get_blogs', { headers });
   }
 
-  deleteBlogs(formData: FormData): Observable<any> {
+  deleteBlogs(id: any): Observable<any> {
+    console.log("Deleting blog with ID:", id);
     const headers = this.getAuthHeaders(); // Add auth headers
-    return this.http.post(this.baseUrl + 'delete_blog', formData, { headers });
+    return this.http.post(this.baseUrl + 'remove_blogs', { "id": id }, { headers });
   }
 
   // Products
@@ -55,9 +77,14 @@ private getAuthHeaders() {
     return this.http.get(this.baseUrl + 'get_products', { headers });
   }
 
-  deleteProducts(formData: FormData): Observable<any> {
+  deleteProducts(id: any): Observable<any> {
     const headers = this.getAuthHeaders(); // Add auth headers
-    return this.http.post(this.baseUrl + 'remove_products', formData, { headers });
+    return this.http.post(this.baseUrl + 'remove_products', { "id": id }, { headers });
+  }
+
+  editProduct(formData: FormData): Observable<any> {
+    const headers = this.getAuthHeaders(); // Use FormData headers
+    return this.http.post(this.baseUrl + 'products_edit', formData, { headers });
   }
 
   // Services
@@ -71,8 +98,13 @@ private getAuthHeaders() {
     return this.http.get(this.baseUrl + 'get_services', { headers });
   }
 
-  deleteServices(formData: FormData): Observable<any> {
+  deleteServices(id: any): Observable<any> {
     const headers = this.getAuthHeaders(); // Add auth headers
-    return this.http.post(this.baseUrl + 'remove_services', formData, { headers });
+    return this.http.post(this.baseUrl + 'remove_services', { "id": id }, { headers });
+  }
+
+   editService(formData: FormData): Observable<any> {
+    const headers = this.getAuthHeaders(); // Use FormData headers
+    return this.http.post(this.baseUrl + 'services_edit', formData, { headers });
   }
 }
