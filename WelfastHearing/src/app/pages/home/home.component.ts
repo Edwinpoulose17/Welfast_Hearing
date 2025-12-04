@@ -16,10 +16,11 @@ import { Meta, Title } from '@angular/platform-browser';
   imports: [CommonModule, RouterLink],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush, // ✅ Big performance boost
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit, AfterViewInit {
-  @ViewChild('whyChooseSection', { static: true }) sectionRef!: ElementRef;
+
+  @ViewChild('whyChooseSection', { static: false }) sectionRef!: ElementRef;
   isSectionVisible = false;
 
   constructor(
@@ -27,7 +28,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     private meta: Meta,
     private title: Title
   ) {
-    // ✅ SEO setup
+    // SEO meta settings
     this.title.setTitle(
       'Expert Hearing Tests & Hearing Aids in Central Coast | Welfast Hearing'
     );
@@ -43,7 +44,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
         content:
           'Hearing Tests Central Coast, Rechargeable Hearing Aids, Hearing Clinic in Lake Macquarie, Micro suction Ear wax removal, Bluetooth hearing, Hearing wellness experts in Central Coast',
       },
-      { property: 'og:title', content: 'Expert Hearing Tests & Hearing Aids in Central Coast | Welfast Hearing' },
+      {
+        property: 'og:title',
+        content:
+          'Expert Hearing Tests & Hearing Aids in Central Coast | Welfast Hearing',
+      },
       {
         property: 'og:description',
         content:
@@ -51,8 +56,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       },
       {
         property: 'og:image',
-        content:
-          'https://welfasthearing.com.au/assets/Banner-images/5.png',
+        content: 'https://welfasthearing.com.au/assets/Banner-images/5.png',
       },
       { property: 'og:url', content: 'https://welfasthearing.com.au/' },
     ]);
@@ -63,7 +67,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    // ✅ Lazy-load the “Why Choose” section when visible
+    // ❗ Ensure element exists before using observer
+    if (!this.sectionRef) return;
+
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
         this.isSectionVisible = true;
@@ -78,13 +84,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
     let link: HTMLLinkElement =
       document.querySelector("link[rel='canonical']") ||
       document.createElement('link');
+
     link.setAttribute('rel', 'canonical');
     link.setAttribute('href', url);
     document.head.appendChild(link);
   }
 
   contactus() {
-    this.router.navigate(['/', 'contact-us']);
+    this.router.navigate(['/contact-us']);
   }
 
   cards = [
@@ -135,8 +142,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
     },
   ];
 
-  public showmore(card: any) {
-    this.router.navigate(['/why-choose-welfast', card.slug], { state: { card } });
+  showmore(card: any) {
+    this.router.navigate(['/why-choose-welfast', card.slug], {
+      state: { card },
+    });
   }
 
   trackByCard(index: number, card: any): number {
